@@ -148,6 +148,7 @@ def fetch_option_summary(ticker: str):
     """
     한 종목의 옵션체인에서 가까운 만기 N개를 합산해
     총 거래량, 총 OI, Volume/OI 비율을 계산한다.
+    또한 콜/풋 각각에서 거래량이 가장 많이 몰린 행사가(strike)와 만기를 찾는다.
     """
     try:
         tk = yf.Ticker(ticker)
@@ -161,6 +162,10 @@ def fetch_option_summary(ticker: str):
         total_put_vol = 0
         total_oi = 0
 
+        # 콜/풋 각각에서 거래량이 가장 많은 단일 계약(행사가+만기)을 추적
+        top_call = {"strike": None, "volume": -1, "expiry": None}
+        top_put = {"strike": None, "volume": -1, "expiry": None}
+
         for exp in expiries_to_use:
             chain = tk.option_chain(exp)
             calls, puts = chain.calls, chain.puts
@@ -169,6 +174,26 @@ def fetch_option_summary(ticker: str):
             total_put_vol += puts["volume"].fillna(0).sum()
             total_oi += calls["openInterest"].fillna(0).sum()
             total_oi += puts["openInterest"].fillna(0).sum()
+
+            if not calls.empty:
+                call_max_idx = calls["volume"].fillna(0).idxmax()
+                call_max_vol = calls.loc[call_max_idx, "volume"]
+                if pd.notna(call_max_vol) and call_max_vol > top_call["volume"]:
+                    top_call = {
+                        "strike": calls.loc[call_max_idx, "strike"],
+                        "volume": int(call_max_vol),
+                        "expiry": exp,
+                    }
+
+            if not puts.empty:
+                put_max_idx = puts["volume"].fillna(0).idxmax()
+                put_max_vol = puts.loc[put_max_idx, "volume"]
+                if pd.notna(put_max_vol) and put_max_vol > top_put["volume"]:
+                    top_put = {
+                        "strike": puts.loc[put_max_idx, "strike"],
+                        "volume": int(put_max_vol),
+                        "expiry": exp,
+                    }
 
         total_vol = total_call_vol + total_put_vol
         if total_vol < MIN_TOTAL_VOLUME:
@@ -186,6 +211,12 @@ def fetch_option_summary(ticker: str):
             "open_interest": int(total_oi),
             "vol_oi_ratio": round(vol_oi_ratio, 2),
             "put_call_ratio": round(put_call_ratio, 2),
+            "top_call_strike": top_call["strike"],
+            "top_call_strike_volume": top_call["volume"] if top_call["volume"] >= 0 else None,
+            "top_call_expiry": top_call["expiry"],
+            "top_put_strike": top_put["strike"],
+            "top_put_strike_volume": top_put["volume"] if top_put["volume"] >= 0 else None,
+            "top_put_expiry": top_put["expiry"],
         }
     except Exception:
         return None
@@ -294,6 +325,8 @@ def send_telegram_message(text: str):
 def format_telegram_message(df: pd.DataFrame) -> str:
     """
     상위 종목 데이터를 텔레그램용 텍스트로 포맷팅한다.
+    - 히스토리가 없어 평균 대비 배율을 모를 경우, 해당 문구는 아예 생략한다.
+    - 콜/풋 중 우위인 방향의 행사가(strike)와 만기, 그 행사가에 몰린 거래량을 함께 보여준다.
     """
     today_str = datetime.date.today().isoformat()
     lines = [f"<b>옵션 거래량 급증 스캔 결과 ({today_str})</b>", ""]
@@ -304,16 +337,35 @@ def format_telegram_message(df: pd.DataFrame) -> str:
         return "\n".join(lines)
 
     for _, row in top.iterrows():
-        direction = "콜 우위" if row["put_call_ratio"] < 1 else "풋 우위"
-        vs_avg = (
-            f"{row['volume_ratio_vs_avg']}배"
-            if row["volume_ratio_vs_avg"] != 1.0
-            else "N/A(히스토리 부족)"
-        )
-        lines.append(
+        is_call_heavy = row["put_call_ratio"] < 1
+        direction = "콜 우위" if is_call_heavy else "풋 우위"
+
+        # 첫 줄: 종목, 총거래량, Vol/OI, (있으면) 평균대비 배율, 방향
+        first_line = (
             f"• <b>{row['ticker']}</b> — 거래량 {int(row['total_volume']):,} "
-            f"(Vol/OI {row['vol_oi_ratio']}, 평균대비 {vs_avg}, {direction})"
+            f"(Vol/OI {row['vol_oi_ratio']}, {direction}"
         )
+        if pd.notna(row.get("volume_ratio_vs_avg")) and row["volume_ratio_vs_avg"] != 1.0:
+            first_line += f", 평균대비 {row['volume_ratio_vs_avg']}배"
+        first_line += ")"
+        lines.append(first_line)
+
+        # 둘째 줄: 우위 방향의 행사가 집중 정보
+        if is_call_heavy:
+            strike = row.get("top_call_strike")
+            vol = row.get("top_call_strike_volume")
+            expiry = row.get("top_call_expiry")
+        else:
+            strike = row.get("top_put_strike")
+            vol = row.get("top_put_strike_volume")
+            expiry = row.get("top_put_expiry")
+
+        if pd.notna(strike) and pd.notna(vol):
+            option_word = "콜" if is_call_heavy else "풋"
+            expiry_str = f", {expiry} 만기" if pd.notna(expiry) and expiry else ""
+            lines.append(
+                f"   └ ${strike:g} {option_word}에 집중{expiry_str} (거래량 {int(vol):,})"
+            )
 
     lines.append("")
     lines.append("⚠️ 투자 조언이 아닙니다. 참고용 스크리닝 결과입니다.")
