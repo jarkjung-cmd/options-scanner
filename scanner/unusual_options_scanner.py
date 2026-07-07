@@ -324,29 +324,30 @@ def send_telegram_message(text: str):
 
 def format_telegram_message(df: pd.DataFrame) -> str:
     """
-    상위 종목 데이터를 텔레그램용 텍스트로 포맷팅한다.
+    상위 종목 데이터를 텔레그램용 영어 텍스트로 포맷팅한다.
+    (구독자가 해외 사용자 위주이므로 텔레그램 발송 메시지는 영어로 작성)
     - 히스토리가 없어 평균 대비 배율을 모를 경우, 해당 문구는 아예 생략한다.
     - 콜/풋 중 우위인 방향의 행사가(strike)와 만기, 그 행사가에 몰린 거래량을 함께 보여준다.
     """
     today_str = datetime.date.today().isoformat()
-    lines = [f"<b>옵션 거래량 급증 스캔 결과 ({today_str})</b>", ""]
+    lines = [f"<b>Unusual Options Activity Scan ({today_str})</b>", ""]
 
     top = df.head(TELEGRAM_TOP_N)
     if top.empty:
-        lines.append("오늘은 조건에 맞는 종목이 없습니다.")
+        lines.append("No tickers matched today's criteria.")
         return "\n".join(lines)
 
     for _, row in top.iterrows():
         is_call_heavy = row["put_call_ratio"] < 1
-        direction = "콜 우위" if is_call_heavy else "풋 우위"
+        direction = "Call-heavy" if is_call_heavy else "Put-heavy"
 
         # 첫 줄: 종목, 총거래량, Vol/OI, (있으면) 평균대비 배율, 방향
         first_line = (
-            f"• <b>{row['ticker']}</b> — 거래량 {int(row['total_volume']):,} "
+            f"• <b>{row['ticker']}</b> — Vol {int(row['total_volume']):,} "
             f"(Vol/OI {row['vol_oi_ratio']}, {direction}"
         )
         if pd.notna(row.get("volume_ratio_vs_avg")) and row["volume_ratio_vs_avg"] != 1.0:
-            first_line += f", 평균대비 {row['volume_ratio_vs_avg']}배"
+            first_line += f", {row['volume_ratio_vs_avg']}x avg"
         first_line += ")"
         lines.append(first_line)
 
@@ -361,14 +362,14 @@ def format_telegram_message(df: pd.DataFrame) -> str:
             expiry = row.get("top_put_expiry")
 
         if pd.notna(strike) and pd.notna(vol):
-            option_word = "콜" if is_call_heavy else "풋"
-            expiry_str = f", {expiry} 만기" if pd.notna(expiry) and expiry else ""
+            option_word = "call" if is_call_heavy else "put"
+            expiry_str = f", exp {expiry}" if pd.notna(expiry) and expiry else ""
             lines.append(
-                f"   └ ${strike:g} {option_word}에 집중{expiry_str} (거래량 {int(vol):,})"
+                f"   └ Concentrated at ${strike:g} {option_word}{expiry_str} (vol {int(vol):,})"
             )
 
     lines.append("")
-    lines.append("⚠️ 투자 조언이 아닙니다. 참고용 스크리닝 결과입니다.")
+    lines.append("⚠️ Not investment advice. For informational/screening purposes only.")
     return "\n".join(lines)
 
 
