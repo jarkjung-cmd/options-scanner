@@ -1,0 +1,2 @@
+ticker,date,total_volume,call_volume,put_volume,open_interest,vol_oi_ratio,put_call_ratio,avg_volume_20d,volume_ratio_vs_avg,score
+FUBO,2026-07-07,3147,2454,693,6323,0.5,0.28,,1.0,2.0
