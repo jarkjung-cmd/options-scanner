@@ -1,0 +1,42 @@
+name: Options Scanner Daily Run
+
+on:
+  schedule:
+    # UTC 기준. 미국 동부시간(ET) 장마감(16:00) 이후로 넉넉히 잡음.
+    # 서머타임(EDT, 3~11월): UTC 21:00 = 미국 동부 17:00
+    # 표준시(EST, 11~3월):   UTC 22:00 = 미국 동부 17:00
+    - cron: "0 21 * * 1-5"   # 평일만 (월~금)
+  workflow_dispatch: {}       # 수동 실행 버튼도 추가 (테스트용)
+
+jobs:
+  scan:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write   # 히스토리 CSV를 리포지토리에 커밋하기 위해 필요
+
+    steps:
+      - name: 리포지토리 체크아웃
+        uses: actions/checkout@v4
+
+      - name: Python 설정
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: 패키지 설치
+        run: pip install yfinance pandas requests
+
+      - name: 스캐너 실행
+        working-directory: scanner
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: python unusual_options_scanner.py
+
+      - name: 히스토리/결과 파일 커밋
+        run: |
+          git config user.name "options-scanner-bot"
+          git config user.email "actions@github.com"
+          git add scanner/options_volume_history.csv scanner/unusual_options_today.csv
+          git diff --staged --quiet || git commit -m "Daily scan results $(date -u +%Y-%m-%d)"
+          git push
