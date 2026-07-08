@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>I built a daily options-flow scanner for stocks nobody else covers</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap');
+  :root {
+    --bg: #0a0d0f; --bg-raised: #12171a; --line: #1e2629;
+    --text: #e8ece9; --text-dim: #9aa8a3; --accent: #3ddc84;
+    --mono: 'JetBrains Mono', monospace; --sans: 'Inter', sans-serif;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: var(--bg); color: var(--text); font-family: var(--sans);
+    line-height: 1.75; padding: 72px 24px 120px;
+  }
+  .wrap { max-width: 680px; margin: 0 auto; }
+  .back {
+    font-family: var(--mono); font-size: 12.5px; color: var(--text-dim);
+    text-decoration: none; display: inline-block; margin-bottom: 40px;
+  }
+  .back:hover { color: var(--accent); }
+  .eyebrow {
+    font-family: var(--mono); font-size: 12px; color: var(--accent);
+    letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 18px;
+  }
+  h1 {
+    font-size: 34px; font-weight: 700; letter-spacing: -0.02em;
+    line-height: 1.25; margin-bottom: 14px;
+  }
+  .meta { font-family: var(--mono); font-size: 12.5px; color: var(--text-dim); margin-bottom: 48px; }
+  p { font-size: 16.5px; color: #d4dbd7; margin-bottom: 20px; }
+  h2 {
+    font-size: 21px; font-weight: 700; margin-top: 44px; margin-bottom: 16px;
+    letter-spacing: -0.01em;
+  }
+  ul { margin: 0 0 20px 22px; }
+  li { font-size: 16.5px; color: #d4dbd7; margin-bottom: 12px; }
+  code {
+    font-family: var(--mono); font-size: 14.5px; background: var(--bg-raised);
+    border: 1px solid var(--line); padding: 2px 6px; border-radius: 4px; color: var(--accent);
+  }
+  a.inline { color: var(--accent); text-decoration: underline; text-decoration-color: rgba(61,220,132,0.4); }
+  strong { color: var(--text); }
+  hr { border: none; border-top: 1px solid var(--line); margin: 48px 0; }
+  footer { font-family: var(--mono); font-size: 12px; color: var(--text-dim); margin-top: 56px; }
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <a href="index.html" class="back">← optionscanner.dev</a>
+
+    <div class="eyebrow">Build notes</div>
+    <h1>I built a daily options-flow scanner for stocks nobody else covers</h1>
+    <div class="meta">July 2026 · ~5 min read</div>
+
+    <p>
+      Most "unusual options activity" tools I could find were all built
+      around the same 50–100 mega-cap tickers — SPY, QQQ, NVDA, TSLA, the
+      usual suspects. Which makes sense, that's where the volume and the ad
+      dollars are. But it also means the Russell 2000 — about 2,000
+      small-cap stocks — is basically a blind spot. Less liquid names, so
+      when unusual volume <em>does</em> show up there, it tends to be a
+      much more lopsided, easier-to-spot signal than in a name that trades
+      50 million shares a day.
+    </p>
+    <p>So I built a scanner that only looks at that blind spot.</p>
+
+    <h2>What it actually does</h2>
+    <p>Every trading day, a script:</p>
+    <ul>
+      <li>Pulls the current Russell 2000 constituent list (from iShares'
+        public holdings CSV — this alone took longer to get right than I
+        expected, since their endpoint occasionally blocks requests from
+        cloud IPs)</li>
+      <li>For each ticker, grabs the near-term options chain and totals
+        call/put volume and open interest across the closest couple of
+        expirations</li>
+      <li>Flags anything where volume is unusually high relative to open
+        interest, or relative to that ticker's own recent average once
+        enough history has accumulated</li>
+      <li>Finds the specific strike + expiration where the flow is
+        concentrated, not just "calls are busy" but exactly where</li>
+      <li>Sends the results to a Telegram channel</li>
+    </ul>
+    <p>
+      That's it. No ML, no "AI-powered predictions," just volume math run
+      against ~2,000 tickers once a day.
+    </p>
+
+    <h2>The parts that were more annoying than the "hard" part</h2>
+    <p>The actual signal logic was the easy part. What ate most of my time:</p>
+    <ul>
+      <li><strong>Data source reliability.</strong> I'm using <code>yfinance</code>,
+        which is an unofficial wrapper around Yahoo Finance. It works, but
+        it's not built for scanning 2,000 tickers daily without hitting
+        rate limits, so the whole thing runs through a thread pool with
+        deliberate delays.</li>
+      <li><strong>Where "today" actually starts.</strong> Building a
+        meaningful "volume vs. 20-day average" metric means you need to
+        have been tracking a ticker for 20 days first. Day one, that
+        number is meaningless. It only gets useful once the history
+        accumulates — which is obvious in hindsight, less obvious when
+        you're staring at your first day's empty comparison column.</li>
+      <li><strong>Scheduling reliability.</strong> I run this on GitHub
+        Actions' free tier with a cron trigger. Learned the hard way that
+        scheduling a workflow for the top of the hour (e.g. 13:00 UTC
+        exactly) means it competes with every other cron job on the
+        platform doing the same thing, and can get delayed by hours during
+        high load. Moving it to an odd minute (12:37 instead of 13:00)
+        fixed it.</li>
+      <li><strong>Timezone math with two clocks that don't agree.</strong>
+        US market hours run on a clock that shifts twice a year (DST). My
+        own timezone doesn't. Cron only understands UTC. Getting "30
+        minutes before market open, in my own local time, year-round" to
+        actually mean what I wanted took more napkin math than I'll admit
+        to.</li>
+    </ul>
+
+    <h2>What I'd do differently</h2>
+    <p>
+      If I were starting over, I'd pay for a real options data feed
+      (Polygon, Tradier) from day one instead of routing everything
+      through an unofficial scraper. It would have saved a lot of the
+      rate-limit and reliability headaches. I stuck with the free approach
+      mostly because I wanted to see how far a zero-budget version could
+      get before I spent anything — turns out, pretty far, but not without
+      some duct tape.
+    </p>
+
+    <h2>Where it stands now</h2>
+    <p>
+      It runs daily, unattended, and has been catching some genuinely
+      interesting setups in names I'd never have looked at otherwise. I've
+      since wrapped it into a small
+      <a href="index.html" class="inline">subscription product</a>, but the
+      interesting part to me was always the scanning problem itself —
+      happy to go into more detail on any of the data/infra pieces if
+      useful to anyone building something similar.
+    </p>
+
+    <hr>
+    <footer>OPTIONSCANNER · Not investment advice. <a href="disclaimer.html" class="inline" style="color:var(--text-dim);">Full disclosure</a></footer>
+  </div>
+</body>
+</html>
