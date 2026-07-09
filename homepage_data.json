@@ -1,0 +1,36 @@
+{
+  "date": "2026-07-09",
+  "updated_at": "2026-07-09T01:38:58.604236+00:00",
+  "items": [
+    {
+      "ticker": "PENG",
+      "direction": "call",
+      "strike": 80.0,
+      "strike_volume": 4990,
+      "expiry": "2026-07-17",
+      "total_volume": 33082,
+      "vol_oi_ratio": 0.91,
+      "volume_ratio_vs_avg": 1.75
+    },
+    {
+      "ticker": "XENE",
+      "direction": "call",
+      "strike": 75.0,
+      "strike_volume": 10081,
+      "expiry": "2026-07-17",
+      "total_volume": 13135,
+      "vol_oi_ratio": 1.17,
+      "volume_ratio_vs_avg": 30.62
+    },
+    {
+      "ticker": "PBF",
+      "direction": "call",
+      "strike": 55.0,
+      "strike_volume": 2829,
+      "expiry": "2026-07-17",
+      "total_volume": 10312,
+      "vol_oi_ratio": 0.89,
+      "volume_ratio_vs_avg": 1.98
+    }
+  ]
+}
