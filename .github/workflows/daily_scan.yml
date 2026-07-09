@@ -38,13 +38,16 @@ jobs:
           python-version: "3.11"
 
       - name: 패키지 설치
-        run: pip install yfinance pandas requests
+        run: |
+          pip install yfinance pandas requests playwright
+          playwright install --with-deps chromium
 
       - name: 스캐너 실행
         working-directory: scanner
         env:
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          TELEGRAM_ADMIN_CHAT_ID: ${{ secrets.TELEGRAM_ADMIN_CHAT_ID }}
         run: python unusual_options_scanner.py
 
       - name: 히스토리/결과 파일 커밋
