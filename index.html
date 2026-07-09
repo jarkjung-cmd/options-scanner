@@ -359,9 +359,9 @@
       <div class="sample" id="sample">
         <div class="sample-head">
           <span>OPTIONSCANNER ALERT BOT</span>
-          <span>TODAY, 4:32 PM ET</span>
+          <span id="sample-date">TODAY, 4:32 PM ET</span>
         </div>
-        <div class="sample-body">
+        <div class="sample-body" id="sample-body">
           <div class="sample-row">
             <span class="sample-ticker">ROCK</span>
             <span class="tag put">PUT-HEAVY</span>
@@ -380,6 +380,43 @@
           </div>
         </div>
       </div>
+      <script>
+        // 오늘의 실제 스캔 결과(homepage_data.json)를 불러와서 샘플 카드에 반영.
+        // 파일이 아직 없거나(첫 스캔 전) 로드 실패하면 위의 정적 예시 그대로 유지됨.
+        fetch('homepage_data.json?_=' + Date.now())
+          .then(function (res) { if (!res.ok) throw new Error('no data yet'); return res.json(); })
+          .then(function (data) {
+            if (!data.items || !data.items.length) return;
+
+            var body = document.getElementById('sample-body');
+            var dateEl = document.getElementById('sample-date');
+            if (data.date) dateEl.textContent = data.date + ' SCAN';
+
+            var html = '';
+            data.items.forEach(function (item) {
+              var tagClass = item.direction === 'call' ? 'call' : 'put';
+              var tagText = item.direction === 'call' ? 'CALL-HEAVY' : 'PUT-HEAVY';
+              var strikeTxt = (item.strike != null)
+                ? ('$' + item.strike + (item.direction === 'call' ? ' call' : ' put'))
+                : '';
+              var metric = (item.volume_ratio_vs_avg != null)
+                ? (item.volume_ratio_vs_avg.toFixed(2) + 'x avg')
+                : (item.vol_oi_ratio != null ? ('Vol/OI ' + item.vol_oi_ratio.toFixed(2)) : '');
+              var strikeVolTxt = (item.strike_volume != null) ? ('vol ' + item.strike_volume.toLocaleString()) : '';
+
+              html += '<div class="sample-row">'
+                + '<span class="sample-ticker">' + item.ticker + '</span>'
+                + '<span class="tag ' + tagClass + '">' + tagText + '</span>'
+                + '</div>';
+              html += '<div class="sample-row">'
+                + '<span>' + [metric, strikeTxt].filter(Boolean).join(' · ') + '</span>'
+                + '<span>' + strikeVolTxt + '</span>'
+                + '</div>';
+            });
+            body.innerHTML = html;
+          })
+          .catch(function () { /* 데이터 없으면 정적 예시 그대로 둠 */ });
+      </script>
     </div>
   </div>
 
