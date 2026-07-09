@@ -1,36 +1,36 @@
 {
   "date": "2026-07-09",
-  "updated_at": "2026-07-09T01:44:25.343675+00:00",
+  "updated_at": "2026-07-09T19:03:14.220406+00:00",
   "items": [
     {
-      "ticker": "PENG",
+      "ticker": "OPEN",
       "direction": "call",
-      "strike": 80.0,
-      "strike_volume": 4990,
-      "expiry": "2026-07-17",
-      "total_volume": 33082,
-      "vol_oi_ratio": 0.91,
-      "volume_ratio_vs_avg": 1.75
+      "strike": 5.5,
+      "strike_volume": 22860,
+      "expiry": "2026-07-10",
+      "total_volume": 102584,
+      "vol_oi_ratio": 0.53,
+      "volume_ratio_vs_avg": 3.22
     },
     {
-      "ticker": "XENE",
+      "ticker": "ACMR",
       "direction": "call",
-      "strike": 75.0,
-      "strike_volume": 10081,
-      "expiry": "2026-07-17",
-      "total_volume": 13135,
-      "vol_oi_ratio": 1.17,
-      "volume_ratio_vs_avg": 30.62
+      "strike": 105.0,
+      "strike_volume": 4547,
+      "expiry": "2026-07-10",
+      "total_volume": 11861,
+      "vol_oi_ratio": 0.56,
+      "volume_ratio_vs_avg": 4.79
     },
     {
-      "ticker": "PBF",
-      "direction": "call",
-      "strike": 55.0,
-      "strike_volume": 2829,
+      "ticker": "KGS",
+      "direction": "put",
+      "strike": 40.0,
+      "strike_volume": 4301,
       "expiry": "2026-07-17",
-      "total_volume": 10312,
-      "vol_oi_ratio": 0.89,
-      "volume_ratio_vs_avg": 1.98
+      "total_volume": 5076,
+      "vol_oi_ratio": 0.95,
+      "volume_ratio_vs_avg": 0.98
     }
   ]
 }
