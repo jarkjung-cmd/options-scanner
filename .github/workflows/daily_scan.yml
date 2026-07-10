@@ -54,6 +54,6 @@ jobs:
         run: |
           git config user.name "options-scanner-bot"
           git config user.email "actions@github.com"
-          git add scanner/options_volume_history.csv scanner/unusual_options_today.csv homepage_data.json
+          git add scanner/options_volume_history.csv scanner/unusual_options_today.csv scanner/flags_log.csv scanner/performance_tracking.csv homepage_data.json
           git diff --staged --quiet || git commit -m "Daily scan results $(date -u +%Y-%m-%d)"
           git push
