@@ -1,36 +1,36 @@
 {
   "date": "2026-07-10",
-  "updated_at": "2026-07-10T11:46:50.823013+00:00",
+  "updated_at": "2026-07-10T18:13:10.100222+00:00",
   "items": [
     {
-      "ticker": "OPEN",
-      "direction": "call",
-      "strike": 5.5,
-      "strike_volume": 26374,
-      "expiry": "2026-07-10",
-      "total_volume": 125428,
-      "vol_oi_ratio": 0.91,
-      "volume_ratio_vs_avg": 2.26
+      "ticker": "KGS",
+      "direction": "put",
+      "strike": 40.0,
+      "strike_volume": 4301,
+      "expiry": "2026-07-17",
+      "total_volume": 5092,
+      "vol_oi_ratio": 0.95,
+      "volume_ratio_vs_avg": 0.99
     },
     {
-      "ticker": "ACMR",
+      "ticker": "MTH",
       "direction": "call",
-      "strike": 105.0,
-      "strike_volume": 4633,
-      "expiry": "2026-07-10",
-      "total_volume": 20813,
-      "vol_oi_ratio": 1.52,
-      "volume_ratio_vs_avg": 3.71
+      "strike": 82.5,
+      "strike_volume": 662,
+      "expiry": "2026-08-21",
+      "total_volume": 2602,
+      "vol_oi_ratio": 0.82,
+      "volume_ratio_vs_avg": 3.07
     },
     {
-      "ticker": "AEO",
+      "ticker": "CBT",
       "direction": "call",
-      "strike": 5.0,
-      "strike_volume": 1635,
-      "expiry": "2026-07-10",
-      "total_volume": 7425,
-      "vol_oi_ratio": 0.9,
-      "volume_ratio_vs_avg": 3.79
+      "strike": 95.0,
+      "strike_volume": 1922,
+      "expiry": "2026-07-17",
+      "total_volume": 2048,
+      "vol_oi_ratio": 3.25,
+      "volume_ratio_vs_avg": null
     }
   ]
 }
