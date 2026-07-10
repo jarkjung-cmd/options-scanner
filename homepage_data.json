@@ -1,17 +1,7 @@
 {
   "date": "2026-07-10",
-  "updated_at": "2026-07-10T01:37:29.883637+00:00",
+  "updated_at": "2026-07-10T11:46:50.823013+00:00",
   "items": [
-    {
-      "ticker": "MARA",
-      "direction": "call",
-      "strike": 14.0,
-      "strike_volume": 22920,
-      "expiry": "2026-07-10",
-      "total_volume": 235317,
-      "vol_oi_ratio": 0.53,
-      "volume_ratio_vs_avg": 1.72
-    },
     {
       "ticker": "OPEN",
       "direction": "call",
@@ -19,7 +9,7 @@
       "strike_volume": 26374,
       "expiry": "2026-07-10",
       "total_volume": 125428,
-      "vol_oi_ratio": 0.65,
+      "vol_oi_ratio": 0.91,
       "volume_ratio_vs_avg": 2.26
     },
     {
@@ -29,8 +19,18 @@
       "strike_volume": 4633,
       "expiry": "2026-07-10",
       "total_volume": 20813,
-      "vol_oi_ratio": 0.99,
+      "vol_oi_ratio": 1.52,
       "volume_ratio_vs_avg": 3.71
+    },
+    {
+      "ticker": "AEO",
+      "direction": "call",
+      "strike": 5.0,
+      "strike_volume": 1635,
+      "expiry": "2026-07-10",
+      "total_volume": 7425,
+      "vol_oi_ratio": 0.9,
+      "volume_ratio_vs_avg": 3.79
     }
   ]
 }
