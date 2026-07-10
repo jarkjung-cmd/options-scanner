@@ -37,6 +37,7 @@ import datetime
 import concurrent.futures as cf
 
 import pandas as pd
+import numpy as np
 import requests
 
 try:
@@ -111,6 +112,15 @@ PROMO_FEED_COUNT = 6
 # 로컬에서 폴더 구조가 다르면 이 경로를 맞게 조정하세요.
 HOMEPAGE_DATA_FILE = "../homepage_data.json"
 HOMEPAGE_TOP_N = 3
+
+# --- 성과 추적(적중률) 설정 ---
+# 플래그된 종목이 이후 실제로 어떻게 움직였는지 자동으로 추적합니다.
+FLAGS_LOG_FILE = "flags_log.csv"              # 플래그된 종목 + 당시 주가 기록
+PERFORMANCE_FILE = "performance_tracking.csv"  # 체크포인트별 성과 기록
+# 며칠(거래일 기준) 후에 성과를 체크할지
+TRACKING_CHECKPOINTS_DAYS = [1, 3, 5, 10]
+# 성과 추적 대상: 매일 상위 몇 개 종목까지 기록할지 (너무 많으면 API 호출 늘어남)
+TRACKING_TOP_N = 15
 
 # =================================================================
 
@@ -220,6 +230,19 @@ def fetch_option_summary(ticker: str):
         vol_oi_ratio = total_vol / total_oi if total_oi > 0 else float("inf")
         put_call_ratio = (total_put_vol / total_call_vol) if total_call_vol > 0 else float("inf")
 
+        # 성과 추적용 현재 주가 (실패해도 옵션 데이터 자체는 살려야 하므로 별도 예외 처리)
+        stock_price = None
+        try:
+            fast_info = tk.fast_info
+            stock_price = float(fast_info["last_price"])
+        except Exception:
+            try:
+                hist = tk.history(period="1d")
+                if not hist.empty:
+                    stock_price = float(hist["Close"].iloc[-1])
+            except Exception:
+                pass
+
         return {
             "ticker": ticker,
             "date": datetime.date.today().isoformat(),
@@ -235,6 +258,7 @@ def fetch_option_summary(ticker: str):
             "top_put_strike": top_put["strike"],
             "top_put_strike_volume": top_put["volume"] if top_put["volume"] >= 0 else None,
             "top_put_expiry": top_put["expiry"],
+            "stock_price": stock_price,
         }
     except Exception:
         return None
@@ -634,6 +658,148 @@ def format_telegram_message(df: pd.DataFrame) -> str:
     return "\n".join(lines)
 
 
+def record_new_flags(top_df: pd.DataFrame):
+    """
+    오늘 플래그된 종목(상위 TRACKING_TOP_N개)을 flags_log.csv에 기록한다.
+    같은 종목이 같은 날 다시 플래그되면 덮어쓴다 (중복 방지).
+    """
+    if top_df.empty:
+        return
+
+    today_str = datetime.date.today().isoformat()
+    rows = []
+    for _, row in top_df.head(TRACKING_TOP_N).iterrows():
+        if pd.isna(row.get("stock_price")):
+            continue  # 주가를 못 가져온 경우 추적 불가하므로 스킵
+        is_call = row["put_call_ratio"] < 1
+        rows.append({
+            "ticker": row["ticker"],
+            "flag_date": today_str,
+            "direction": "call" if is_call else "put",
+            "price_at_flag": round(float(row["stock_price"]), 4),
+            "total_volume": int(row["total_volume"]),
+            "vol_oi_ratio": row["vol_oi_ratio"] if row["vol_oi_ratio"] != float("inf") else None,
+        })
+
+    if not rows:
+        return
+
+    new_df = pd.DataFrame(rows)
+
+    if os.path.exists(FLAGS_LOG_FILE):
+        existing = pd.read_csv(FLAGS_LOG_FILE)
+        # 같은 (ticker, flag_date) 조합은 오늘 새로 기록한 걸로 덮어씀
+        key_cols = ["ticker", "flag_date"]
+        existing = existing[~existing.set_index(key_cols).index.isin(new_df.set_index(key_cols).index)]
+        combined = pd.concat([existing, new_df], ignore_index=True)
+    else:
+        combined = new_df
+
+    combined.to_csv(FLAGS_LOG_FILE, index=False)
+    print(f"[성과 추적] 오늘 {len(new_df)}개 종목을 {FLAGS_LOG_FILE}에 기록")
+
+
+def update_performance_tracking():
+    """
+    flags_log.csv를 읽어서, 체크포인트(1/3/5/10 거래일)에 도달한 종목들의
+    현재 주가를 조회하고 등락률/적중여부를 performance_tracking.csv에 기록한다.
+    이미 기록된 (ticker, flag_date, checkpoint_days) 조합은 건너뛴다.
+    """
+    if not os.path.exists(FLAGS_LOG_FILE):
+        return
+
+    flags = pd.read_csv(FLAGS_LOG_FILE)
+    if flags.empty:
+        return
+
+    if os.path.exists(PERFORMANCE_FILE):
+        perf = pd.read_csv(PERFORMANCE_FILE)
+        done_keys = set(zip(perf["ticker"], perf["flag_date"], perf["checkpoint_days"]))
+    else:
+        perf = pd.DataFrame()
+        done_keys = set()
+
+    today = np.datetime64(datetime.date.today().isoformat())
+    new_records = []
+    price_cache = {}
+
+    for _, row in flags.iterrows():
+        flag_date = np.datetime64(row["flag_date"])
+        elapsed = int(np.busday_count(flag_date, today))  # 거래일 기준 경과일
+
+        for checkpoint in TRACKING_CHECKPOINTS_DAYS:
+            key = (row["ticker"], row["flag_date"], checkpoint)
+            if key in done_keys:
+                continue
+            if elapsed < checkpoint:
+                continue  # 아직 그 시점이 안 됨
+
+            # 같은 실행 안에서 같은 티커 여러 번 조회하지 않도록 캐싱
+            if row["ticker"] not in price_cache:
+                try:
+                    tk = yf.Ticker(row["ticker"])
+                    price_cache[row["ticker"]] = float(tk.fast_info["last_price"])
+                except Exception:
+                    price_cache[row["ticker"]] = None
+
+            current_price = price_cache[row["ticker"]]
+            if current_price is None:
+                continue
+
+            price_at_flag = row["price_at_flag"]
+            pct_change = round((current_price - price_at_flag) / price_at_flag * 100, 2)
+            direction = row["direction"]
+            hit = (direction == "call" and pct_change > 0) or (direction == "put" and pct_change < 0)
+
+            new_records.append({
+                "ticker": row["ticker"],
+                "flag_date": row["flag_date"],
+                "direction": direction,
+                "checkpoint_days": checkpoint,
+                "checked_date": datetime.date.today().isoformat(),
+                "price_at_flag": price_at_flag,
+                "price_at_checkpoint": round(current_price, 4),
+                "pct_change": pct_change,
+                "hit": hit,
+            })
+
+    if not new_records:
+        print("[성과 추적] 오늘 새로 체크포인트에 도달한 종목 없음")
+        return
+
+    new_perf_df = pd.DataFrame(new_records)
+    combined = pd.concat([perf, new_perf_df], ignore_index=True) if not perf.empty else new_perf_df
+    combined.to_csv(PERFORMANCE_FILE, index=False)
+    print(f"[성과 추적] {len(new_records)}건 신규 체크포인트 결과 기록 완료")
+
+
+def build_performance_summary() -> str:
+    """
+    performance_tracking.csv를 집계해서 체크포인트별 적중률 요약 텍스트를 만든다.
+    관리자 텔레그램으로만 보내는 용도 (고객 대상 성과 주장은 규제 리스크가 있으므로 비공개).
+    """
+    if not os.path.exists(PERFORMANCE_FILE):
+        return "아직 집계할 성과 데이터가 없습니다 (체크포인트 도달 대기 중)."
+
+    perf = pd.read_csv(PERFORMANCE_FILE)
+    if perf.empty:
+        return "아직 집계할 성과 데이터가 없습니다."
+
+    lines = ["📊 <b>적중률 통계 (내부 참고용)</b>", ""]
+    for checkpoint in sorted(perf["checkpoint_days"].unique()):
+        subset = perf[perf["checkpoint_days"] == checkpoint]
+        hit_rate = subset["hit"].mean() * 100
+        avg_move = subset["pct_change"].abs().mean()
+        lines.append(
+            f"• {checkpoint}거래일 후: 적중률 {hit_rate:.1f}% "
+            f"(표본 {len(subset)}건, 평균 변동폭 {avg_move:.1f}%)"
+        )
+
+    lines.append("")
+    lines.append("⚠️ 표본이 적을수록 신뢰도가 낮습니다. 고객 대상 마케팅에 활용 전 반드시 표본 크기를 확인하세요.")
+    return "\n".join(lines)
+
+
 def write_homepage_data(top_df: pd.DataFrame):
     """
     오늘의 거래량 상위 N개 종목을 랜딩페이지가 읽을 JSON 파일로 저장한다.
@@ -729,6 +895,13 @@ def main():
     send_telegram_message(message)
 
     generate_promo_assets(top)
+
+    print("\n[성과 추적] 오늘 플래그 기록 및 체크포인트 성과 확인 중...")
+    record_new_flags(top)
+    update_performance_tracking()
+    if TELEGRAM_ADMIN_CHAT_ID:
+        summary = build_performance_summary()
+        send_telegram_message_to(TELEGRAM_ADMIN_CHAT_ID, summary)
 
     print("완료.")
 
