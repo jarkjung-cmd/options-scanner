@@ -1,36 +1,36 @@
 {
-  "date": "2026-07-10",
-  "updated_at": "2026-07-10T18:13:10.100222+00:00",
+  "date": "2026-07-13",
+  "updated_at": "2026-07-13T18:25:29.592128+00:00",
   "items": [
     {
-      "ticker": "KGS",
-      "direction": "put",
-      "strike": 40.0,
-      "strike_volume": 4301,
-      "expiry": "2026-07-17",
-      "total_volume": 5092,
-      "vol_oi_ratio": 0.95,
-      "volume_ratio_vs_avg": 0.99
-    },
-    {
-      "ticker": "MTH",
+      "ticker": "PBF",
       "direction": "call",
-      "strike": 82.5,
-      "strike_volume": 662,
+      "strike": 60.0,
+      "strike_volume": 4723,
       "expiry": "2026-08-21",
-      "total_volume": 2602,
-      "vol_oi_ratio": 0.82,
-      "volume_ratio_vs_avg": 3.07
+      "total_volume": 11066,
+      "vol_oi_ratio": 0.55,
+      "volume_ratio_vs_avg": 2.59
     },
     {
-      "ticker": "CBT",
+      "ticker": "SHAK",
       "direction": "call",
-      "strike": 95.0,
-      "strike_volume": 1922,
+      "strike": 63.0,
+      "strike_volume": 5114,
       "expiry": "2026-07-17",
-      "total_volume": 2048,
-      "vol_oi_ratio": 3.25,
-      "volume_ratio_vs_avg": null
+      "total_volume": 8154,
+      "vol_oi_ratio": 0.84,
+      "volume_ratio_vs_avg": 4.29
+    },
+    {
+      "ticker": "ASO",
+      "direction": "call",
+      "strike": 50.0,
+      "strike_volume": 4006,
+      "expiry": "2026-07-17",
+      "total_volume": 5243,
+      "vol_oi_ratio": 0.51,
+      "volume_ratio_vs_avg": 5.14
     }
   ]
 }
