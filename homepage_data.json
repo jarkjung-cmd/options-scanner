@@ -1,16 +1,26 @@
 {
-  "date": "2026-07-14",
-  "updated_at": "2026-07-14T16:51:40.583630+00:00",
+  "date": "2026-07-15",
+  "updated_at": "2026-07-15T16:58:38.992196+00:00",
   "items": [
     {
-      "ticker": "INSW",
+      "ticker": "AEHR",
       "direction": "call",
-      "strike": 85.0,
-      "strike_volume": 2208,
+      "strike": 100.0,
+      "strike_volume": 1966,
       "expiry": "2026-07-17",
-      "total_volume": 5214,
-      "vol_oi_ratio": 0.83,
-      "volume_ratio_vs_avg": 6.88
+      "total_volume": 27561,
+      "vol_oi_ratio": 0.65,
+      "volume_ratio_vs_avg": 5.66
+    },
+    {
+      "ticker": "TRVI",
+      "direction": "call",
+      "strike": 15.0,
+      "strike_volume": 4000,
+      "expiry": "2026-07-17",
+      "total_volume": 15599,
+      "vol_oi_ratio": 1.05,
+      "volume_ratio_vs_avg": 9.15
     },
     {
       "ticker": "KGS",
@@ -18,19 +28,9 @@
       "strike": 40.0,
       "strike_volume": 4301,
       "expiry": "2026-07-17",
-      "total_volume": 4845,
+      "total_volume": 4830,
       "vol_oi_ratio": 0.9,
       "volume_ratio_vs_avg": 0.95
-    },
-    {
-      "ticker": "MD",
-      "direction": "put",
-      "strike": 20.0,
-      "strike_volume": 4002,
-      "expiry": "2026-08-21",
-      "total_volume": 4209,
-      "vol_oi_ratio": 20.84,
-      "volume_ratio_vs_avg": null
     }
   ]
 }
