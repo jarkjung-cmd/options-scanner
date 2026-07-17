@@ -1,16 +1,26 @@
 {
-  "date": "2026-07-16",
-  "updated_at": "2026-07-16T16:55:11.125709+00:00",
+  "date": "2026-07-17",
+  "updated_at": "2026-07-17T16:45:09.761629+00:00",
   "items": [
     {
-      "ticker": "TRVI",
+      "ticker": "FLG",
       "direction": "call",
       "strike": 15.0,
-      "strike_volume": 4000,
+      "strike_volume": 25633,
       "expiry": "2026-07-17",
-      "total_volume": 12436,
+      "total_volume": 51835,
       "vol_oi_ratio": 0.56,
-      "volume_ratio_vs_avg": 2.77
+      "volume_ratio_vs_avg": 28.09
+    },
+    {
+      "ticker": "INOD",
+      "direction": "put",
+      "strike": 50.0,
+      "strike_volume": 10109,
+      "expiry": "2026-07-17",
+      "total_volume": 25075,
+      "vol_oi_ratio": 0.7,
+      "volume_ratio_vs_avg": 18.52
     },
     {
       "ticker": "KGS",
@@ -18,19 +28,9 @@
       "strike": 40.0,
       "strike_volume": 4301,
       "expiry": "2026-07-17",
-      "total_volume": 7180,
-      "vol_oi_ratio": 0.83,
-      "volume_ratio_vs_avg": 1.42
-    },
-    {
-      "ticker": "MD",
-      "direction": "put",
-      "strike": 20.0,
-      "strike_volume": 4000,
-      "expiry": "2026-08-21",
-      "total_volume": 6092,
-      "vol_oi_ratio": 1.54,
-      "volume_ratio_vs_avg": 1.47
+      "total_volume": 8173,
+      "vol_oi_ratio": 0.86,
+      "volume_ratio_vs_avg": 1.54
     }
   ]
 }
