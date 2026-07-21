@@ -1,36 +1,36 @@
 {
-  "date": "2026-07-20",
-  "updated_at": "2026-07-20T19:14:56.547880+00:00",
+  "date": "2026-07-21",
+  "updated_at": "2026-07-21T17:04:41.243387+00:00",
   "items": [
     {
-      "ticker": "CIFR",
-      "direction": "put",
-      "strike": 18.5,
-      "strike_volume": 54122,
+      "ticker": "ONDS",
+      "direction": "call",
+      "strike": 8.0,
+      "strike_volume": 13335,
       "expiry": "2026-07-24",
-      "total_volume": 111721,
-      "vol_oi_ratio": 1.44,
-      "volume_ratio_vs_avg": 4.31
+      "total_volume": 84557,
+      "vol_oi_ratio": 0.53,
+      "volume_ratio_vs_avg": 1.96
     },
     {
       "ticker": "ACHR",
       "direction": "call",
       "strike": 6.0,
-      "strike_volume": 23638,
+      "strike_volume": 13310,
       "expiry": "2026-07-24",
-      "total_volume": 94210,
-      "vol_oi_ratio": 2.74,
-      "volume_ratio_vs_avg": 10.84
+      "total_volume": 43360,
+      "vol_oi_ratio": 0.58,
+      "volume_ratio_vs_avg": 2.51
     },
     {
-      "ticker": "SLS",
+      "ticker": "BULL",
       "direction": "call",
-      "strike": 16.0,
-      "strike_volume": 11348,
+      "strike": 8.5,
+      "strike_volume": 8866,
       "expiry": "2026-07-24",
-      "total_volume": 47901,
-      "vol_oi_ratio": 0.97,
-      "volume_ratio_vs_avg": 3.23
+      "total_volume": 35106,
+      "vol_oi_ratio": 0.6,
+      "volume_ratio_vs_avg": 2.4
     }
   ]
 }
