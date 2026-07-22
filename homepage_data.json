@@ -1,36 +1,36 @@
 {
-  "date": "2026-07-21",
-  "updated_at": "2026-07-21T17:04:41.243387+00:00",
+  "date": "2026-07-22",
+  "updated_at": "2026-07-22T17:05:14.586321+00:00",
   "items": [
     {
       "ticker": "ONDS",
       "direction": "call",
-      "strike": 8.0,
-      "strike_volume": 13335,
-      "expiry": "2026-07-24",
-      "total_volume": 84557,
-      "vol_oi_ratio": 0.53,
-      "volume_ratio_vs_avg": 1.96
+      "strike": 10.0,
+      "strike_volume": 29063,
+      "expiry": "2026-07-31",
+      "total_volume": 150415,
+      "vol_oi_ratio": 0.83,
+      "volume_ratio_vs_avg": 3.2
     },
     {
-      "ticker": "ACHR",
+      "ticker": "LQDA",
       "direction": "call",
-      "strike": 6.0,
-      "strike_volume": 13310,
+      "strike": 85.0,
+      "strike_volume": 1412,
       "expiry": "2026-07-24",
-      "total_volume": 43360,
-      "vol_oi_ratio": 0.58,
-      "volume_ratio_vs_avg": 2.51
+      "total_volume": 9495,
+      "vol_oi_ratio": 0.61,
+      "volume_ratio_vs_avg": 1.94
     },
     {
-      "ticker": "BULL",
-      "direction": "call",
-      "strike": 8.5,
-      "strike_volume": 8866,
-      "expiry": "2026-07-24",
-      "total_volume": 35106,
-      "vol_oi_ratio": 0.6,
-      "volume_ratio_vs_avg": 2.4
+      "ticker": "RSI",
+      "direction": "put",
+      "strike": 35.0,
+      "strike_volume": 3007,
+      "expiry": "2026-08-21",
+      "total_volume": 5499,
+      "vol_oi_ratio": 0.78,
+      "volume_ratio_vs_avg": 8.6
     }
   ]
 }
