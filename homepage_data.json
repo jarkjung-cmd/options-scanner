@@ -1,36 +1,36 @@
 {
-  "date": "2026-07-22",
-  "updated_at": "2026-07-22T17:05:14.586321+00:00",
+  "date": "2026-07-23",
+  "updated_at": "2026-07-23T17:07:47.618053+00:00",
   "items": [
     {
-      "ticker": "ONDS",
+      "ticker": "OPEN",
       "direction": "call",
-      "strike": 10.0,
-      "strike_volume": 29063,
-      "expiry": "2026-07-31",
-      "total_volume": 150415,
-      "vol_oi_ratio": 0.83,
-      "volume_ratio_vs_avg": 3.2
-    },
-    {
-      "ticker": "LQDA",
-      "direction": "call",
-      "strike": 85.0,
-      "strike_volume": 1412,
+      "strike": 4.0,
+      "strike_volume": 13078,
       "expiry": "2026-07-24",
-      "total_volume": 9495,
-      "vol_oi_ratio": 0.61,
-      "volume_ratio_vs_avg": 1.94
+      "total_volume": 68508,
+      "vol_oi_ratio": 0.55,
+      "volume_ratio_vs_avg": 1.78
     },
     {
-      "ticker": "RSI",
-      "direction": "put",
-      "strike": 35.0,
-      "strike_volume": 3007,
+      "ticker": "IMVT",
+      "direction": "call",
+      "strike": 30.0,
+      "strike_volume": 4047,
+      "expiry": "2026-09-18",
+      "total_volume": 4465,
+      "vol_oi_ratio": 0.74,
+      "volume_ratio_vs_avg": 2.47
+    },
+    {
+      "ticker": "ABG",
+      "direction": "call",
+      "strike": 200.0,
+      "strike_volume": 2201,
       "expiry": "2026-08-21",
-      "total_volume": 5499,
-      "vol_oi_ratio": 0.78,
-      "volume_ratio_vs_avg": 8.6
+      "total_volume": 3256,
+      "vol_oi_ratio": 0.62,
+      "volume_ratio_vs_avg": 5.04
     }
   ]
 }
