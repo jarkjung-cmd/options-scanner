@@ -1,36 +1,36 @@
 {
-  "date": "2026-07-24",
-  "updated_at": "2026-07-24T18:05:28.205239+00:00",
+  "date": "2026-07-27",
+  "updated_at": "2026-07-27T18:15:01.415268+00:00",
   "items": [
     {
-      "ticker": "ACMR",
-      "direction": "call",
-      "strike": 90.0,
-      "strike_volume": 4786,
-      "expiry": "2026-07-31",
-      "total_volume": 22955,
-      "vol_oi_ratio": 1.35,
-      "volume_ratio_vs_avg": 4.78
-    },
-    {
-      "ticker": "VSXY",
-      "direction": "put",
-      "strike": 90.0,
-      "strike_volume": 2003,
-      "expiry": "2026-08-21",
-      "total_volume": 4516,
-      "vol_oi_ratio": 0.92,
-      "volume_ratio_vs_avg": 3.19
-    },
-    {
-      "ticker": "IMVT",
+      "ticker": "CIFR",
       "direction": "call",
       "strike": 30.0,
-      "strike_volume": 4047,
-      "expiry": "2026-09-18",
-      "total_volume": 4487,
-      "vol_oi_ratio": 0.74,
-      "volume_ratio_vs_avg": 2.23
+      "strike_volume": 35860,
+      "expiry": "2026-07-31",
+      "total_volume": 60620,
+      "vol_oi_ratio": 0.6,
+      "volume_ratio_vs_avg": 1.95
+    },
+    {
+      "ticker": "QBTS",
+      "direction": "call",
+      "strike": 19.0,
+      "strike_volume": 4968,
+      "expiry": "2026-07-31",
+      "total_volume": 42493,
+      "vol_oi_ratio": 1.18,
+      "volume_ratio_vs_avg": 3.08
+    },
+    {
+      "ticker": "RGTI",
+      "direction": "call",
+      "strike": 17.0,
+      "strike_volume": 4099,
+      "expiry": "2026-07-31",
+      "total_volume": 35396,
+      "vol_oi_ratio": 0.63,
+      "volume_ratio_vs_avg": 1.8
     }
   ]
 }
