@@ -1,36 +1,36 @@
 {
-  "date": "2026-07-27",
-  "updated_at": "2026-07-27T18:15:01.415268+00:00",
+  "date": "2026-07-28",
+  "updated_at": "2026-07-28T17:50:53.748867+00:00",
   "items": [
     {
-      "ticker": "CIFR",
+      "ticker": "FLY",
       "direction": "call",
-      "strike": 30.0,
-      "strike_volume": 35860,
-      "expiry": "2026-07-31",
-      "total_volume": 60620,
-      "vol_oi_ratio": 0.6,
-      "volume_ratio_vs_avg": 1.95
+      "strike": 20.0,
+      "strike_volume": 5810,
+      "expiry": "2026-08-07",
+      "total_volume": 7356,
+      "vol_oi_ratio": 0.75,
+      "volume_ratio_vs_avg": 2.14
     },
     {
-      "ticker": "QBTS",
+      "ticker": "APAM",
       "direction": "call",
-      "strike": 19.0,
-      "strike_volume": 4968,
-      "expiry": "2026-07-31",
-      "total_volume": 42493,
-      "vol_oi_ratio": 1.18,
-      "volume_ratio_vs_avg": 3.08
+      "strike": 45.0,
+      "strike_volume": 5669,
+      "expiry": "2026-08-21",
+      "total_volume": 6687,
+      "vol_oi_ratio": 2.44,
+      "volume_ratio_vs_avg": 9.47
     },
     {
-      "ticker": "RGTI",
+      "ticker": "BIPC",
       "direction": "call",
-      "strike": 17.0,
-      "strike_volume": 4099,
-      "expiry": "2026-07-31",
-      "total_volume": 35396,
-      "vol_oi_ratio": 0.63,
-      "volume_ratio_vs_avg": 1.8
+      "strike": 45.0,
+      "strike_volume": 2588,
+      "expiry": "2026-08-21",
+      "total_volume": 2592,
+      "vol_oi_ratio": 13.86,
+      "volume_ratio_vs_avg": null
     }
   ]
 }
