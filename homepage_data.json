@@ -1,36 +1,36 @@
 {
-  "date": "2026-07-29",
-  "updated_at": "2026-07-29T17:00:44.326688+00:00",
+  "date": "2026-07-30",
+  "updated_at": "2026-07-30T17:59:49.179738+00:00",
   "items": [
     {
-      "ticker": "CLOV",
-      "direction": "put",
-      "strike": 4.0,
-      "strike_volume": 7669,
+      "ticker": "PBF",
+      "direction": "call",
+      "strike": 70.0,
+      "strike_volume": 9230,
+      "expiry": "2026-08-21",
+      "total_volume": 22830,
+      "vol_oi_ratio": 0.62,
+      "volume_ratio_vs_avg": 5.22
+    },
+    {
+      "ticker": "ACMR",
+      "direction": "call",
+      "strike": 90.0,
+      "strike_volume": 4763,
       "expiry": "2026-07-31",
-      "total_volume": 15184,
-      "vol_oi_ratio": 0.55,
-      "volume_ratio_vs_avg": 3.16
+      "total_volume": 16009,
+      "vol_oi_ratio": 1.02,
+      "volume_ratio_vs_avg": 3.05
     },
     {
-      "ticker": "FCF",
-      "direction": "call",
-      "strike": 22.5,
-      "strike_volume": 6064,
+      "ticker": "GKOS",
+      "direction": "put",
+      "strike": 140.0,
+      "strike_volume": 2552,
       "expiry": "2026-08-21",
-      "total_volume": 6552,
-      "vol_oi_ratio": 252.0,
-      "volume_ratio_vs_avg": 13.19
-    },
-    {
-      "ticker": "ABG",
-      "direction": "call",
-      "strike": 200.0,
-      "strike_volume": 2200,
-      "expiry": "2026-08-21",
-      "total_volume": 4650,
-      "vol_oi_ratio": 0.82,
-      "volume_ratio_vs_avg": 4.2
+      "total_volume": 5419,
+      "vol_oi_ratio": 0.88,
+      "volume_ratio_vs_avg": 2.83
     }
   ]
 }
