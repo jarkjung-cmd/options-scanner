@@ -1,36 +1,36 @@
 {
-  "date": "2026-07-30",
-  "updated_at": "2026-07-30T17:59:49.179738+00:00",
+  "date": "2026-07-31",
+  "updated_at": "2026-07-31T18:10:19.522709+00:00",
   "items": [
     {
-      "ticker": "PBF",
+      "ticker": "AXTI",
       "direction": "call",
-      "strike": 70.0,
-      "strike_volume": 9230,
-      "expiry": "2026-08-21",
-      "total_volume": 22830,
-      "vol_oi_ratio": 0.62,
-      "volume_ratio_vs_avg": 5.22
+      "strike": 65.0,
+      "strike_volume": 4798,
+      "expiry": "2026-07-31",
+      "total_volume": 37855,
+      "vol_oi_ratio": 0.87,
+      "volume_ratio_vs_avg": 4.52
     },
     {
       "ticker": "ACMR",
       "direction": "call",
       "strike": 90.0,
-      "strike_volume": 4763,
+      "strike_volume": 4784,
       "expiry": "2026-07-31",
-      "total_volume": 16009,
-      "vol_oi_ratio": 1.02,
-      "volume_ratio_vs_avg": 3.05
+      "total_volume": 11514,
+      "vol_oi_ratio": 0.99,
+      "volume_ratio_vs_avg": 1.86
     },
     {
-      "ticker": "GKOS",
-      "direction": "put",
-      "strike": 140.0,
-      "strike_volume": 2552,
-      "expiry": "2026-08-21",
-      "total_volume": 5419,
-      "vol_oi_ratio": 0.88,
-      "volume_ratio_vs_avg": 2.83
+      "ticker": "ALMS",
+      "direction": "call",
+      "strike": 45.0,
+      "strike_volume": 2534,
+      "expiry": "2026-09-18",
+      "total_volume": 7810,
+      "vol_oi_ratio": 0.76,
+      "volume_ratio_vs_avg": 7.59
     }
   ]
 }
