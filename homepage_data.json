@@ -1,36 +1,36 @@
 {
-  "date": "2026-07-31",
-  "updated_at": "2026-07-31T18:10:19.522709+00:00",
+  "date": "2026-08-03",
+  "updated_at": "2026-08-03T19:00:29.797701+00:00",
   "items": [
     {
-      "ticker": "AXTI",
+      "ticker": "OPEN",
       "direction": "call",
-      "strike": 65.0,
-      "strike_volume": 4798,
-      "expiry": "2026-07-31",
-      "total_volume": 37855,
-      "vol_oi_ratio": 0.87,
-      "volume_ratio_vs_avg": 4.52
+      "strike": 4.5,
+      "strike_volume": 26299,
+      "expiry": "2026-08-07",
+      "total_volume": 62437,
+      "vol_oi_ratio": 0.56,
+      "volume_ratio_vs_avg": 2.18
     },
     {
-      "ticker": "ACMR",
+      "ticker": "SMR",
       "direction": "call",
-      "strike": 90.0,
-      "strike_volume": 4784,
-      "expiry": "2026-07-31",
-      "total_volume": 11514,
-      "vol_oi_ratio": 0.99,
-      "volume_ratio_vs_avg": 1.86
+      "strike": 11.0,
+      "strike_volume": 13457,
+      "expiry": "2026-08-07",
+      "total_volume": 36102,
+      "vol_oi_ratio": 0.8,
+      "volume_ratio_vs_avg": 2.86
     },
     {
-      "ticker": "ALMS",
+      "ticker": "RGTI",
       "direction": "call",
-      "strike": 45.0,
-      "strike_volume": 2534,
-      "expiry": "2026-09-18",
-      "total_volume": 7810,
-      "vol_oi_ratio": 0.76,
-      "volume_ratio_vs_avg": 7.59
+      "strike": 17.0,
+      "strike_volume": 3642,
+      "expiry": "2026-08-07",
+      "total_volume": 34597,
+      "vol_oi_ratio": 0.62,
+      "volume_ratio_vs_avg": 1.8
     }
   ]
 }
