@@ -1,36 +1,36 @@
 {
-  "date": "2026-08-03",
-  "updated_at": "2026-08-03T19:00:29.797701+00:00",
+  "date": "2026-08-04",
+  "updated_at": "2026-08-04T18:20:11.664963+00:00",
   "items": [
     {
       "ticker": "OPEN",
       "direction": "call",
       "strike": 4.5,
-      "strike_volume": 26299,
+      "strike_volume": 21191,
       "expiry": "2026-08-07",
-      "total_volume": 62437,
-      "vol_oi_ratio": 0.56,
-      "volume_ratio_vs_avg": 2.18
+      "total_volume": 72581,
+      "vol_oi_ratio": 0.52,
+      "volume_ratio_vs_avg": 2.26
     },
     {
-      "ticker": "SMR",
+      "ticker": "ZETA",
       "direction": "call",
-      "strike": 11.0,
-      "strike_volume": 13457,
+      "strike": 25.0,
+      "strike_volume": 7796,
       "expiry": "2026-08-07",
-      "total_volume": 36102,
-      "vol_oi_ratio": 0.8,
-      "volume_ratio_vs_avg": 2.86
+      "total_volume": 29675,
+      "vol_oi_ratio": 0.84,
+      "volume_ratio_vs_avg": 4.56
     },
     {
-      "ticker": "RGTI",
+      "ticker": "UPST",
       "direction": "call",
-      "strike": 17.0,
-      "strike_volume": 3642,
+      "strike": 31.0,
+      "strike_volume": 3023,
       "expiry": "2026-08-07",
-      "total_volume": 34597,
-      "vol_oi_ratio": 0.62,
-      "volume_ratio_vs_avg": 1.8
+      "total_volume": 16844,
+      "vol_oi_ratio": 0.55,
+      "volume_ratio_vs_avg": 2.79
     }
   ]
 }
