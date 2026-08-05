@@ -1,36 +1,36 @@
 {
-  "date": "2026-08-04",
-  "updated_at": "2026-08-04T18:20:11.664963+00:00",
+  "date": "2026-08-05",
+  "updated_at": "2026-08-05T18:11:24.133490+00:00",
   "items": [
-    {
-      "ticker": "OPEN",
-      "direction": "call",
-      "strike": 4.5,
-      "strike_volume": 21191,
-      "expiry": "2026-08-07",
-      "total_volume": 72581,
-      "vol_oi_ratio": 0.52,
-      "volume_ratio_vs_avg": 2.26
-    },
     {
       "ticker": "ZETA",
       "direction": "call",
-      "strike": 25.0,
-      "strike_volume": 7796,
+      "strike": 27.0,
+      "strike_volume": 14218,
       "expiry": "2026-08-07",
-      "total_volume": 29675,
+      "total_volume": 62841,
       "vol_oi_ratio": 0.84,
-      "volume_ratio_vs_avg": 4.56
+      "volume_ratio_vs_avg": 7.63
     },
     {
       "ticker": "UPST",
       "direction": "call",
-      "strike": 31.0,
-      "strike_volume": 3023,
+      "strike": 38.0,
+      "strike_volume": 2105,
       "expiry": "2026-08-07",
-      "total_volume": 16844,
-      "vol_oi_ratio": 0.55,
-      "volume_ratio_vs_avg": 2.79
+      "total_volume": 26689,
+      "vol_oi_ratio": 0.54,
+      "volume_ratio_vs_avg": 3.84
+    },
+    {
+      "ticker": "OSCR",
+      "direction": "call",
+      "strike": 35.0,
+      "strike_volume": 10160,
+      "expiry": "2026-08-07",
+      "total_volume": 14689,
+      "vol_oi_ratio": 0.89,
+      "volume_ratio_vs_avg": 3.77
     }
   ]
 }
