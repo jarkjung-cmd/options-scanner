@@ -1,36 +1,36 @@
 {
   "date": "2026-08-07",
-  "updated_at": "2026-08-07T02:30:21.314632+00:00",
+  "updated_at": "2026-08-07T13:55:38.631119+00:00",
   "items": [
     {
-      "ticker": "SOUN",
+      "ticker": "OUT",
       "direction": "call",
-      "strike": 8.0,
-      "strike_volume": 31457,
-      "expiry": "2026-08-07",
-      "total_volume": 145180,
-      "vol_oi_ratio": 1.35,
-      "volume_ratio_vs_avg": 8.57
+      "strike": 34.0,
+      "strike_volume": 6345,
+      "expiry": "2026-08-21",
+      "total_volume": 6737,
+      "vol_oi_ratio": 1.71,
+      "volume_ratio_vs_avg": 13.94
     },
     {
-      "ticker": "CLOV",
+      "ticker": "HNI",
+      "direction": "call",
+      "strike": 40.0,
+      "strike_volume": 5434,
+      "expiry": "2026-09-18",
+      "total_volume": 5477,
+      "vol_oi_ratio": 0.5,
+      "volume_ratio_vs_avg": 0.6
+    },
+    {
+      "ticker": "ROAD",
       "direction": "put",
-      "strike": 4.5,
-      "strike_volume": 22027,
-      "expiry": "2026-08-14",
-      "total_volume": 60607,
-      "vol_oi_ratio": 1.37,
-      "volume_ratio_vs_avg": 8.67
-    },
-    {
-      "ticker": "RGTI",
-      "direction": "call",
-      "strike": 17.0,
-      "strike_volume": 4194,
-      "expiry": "2026-08-07",
-      "total_volume": 47500,
-      "vol_oi_ratio": 0.53,
-      "volume_ratio_vs_avg": 2.11
+      "strike": 95.0,
+      "strike_volume": 652,
+      "expiry": "2026-08-21",
+      "total_volume": 1753,
+      "vol_oi_ratio": 0.58,
+      "volume_ratio_vs_avg": null
     }
   ]
 }
