@@ -1,27 +1,7 @@
 {
   "date": "2026-08-10",
-  "updated_at": "2026-08-10T11:55:57.392434+00:00",
+  "updated_at": "2026-08-10T14:02:42.127271+00:00",
   "items": [
-    {
-      "ticker": "CON",
-      "direction": "call",
-      "strike": 40.0,
-      "strike_volume": 9997,
-      "expiry": "2026-08-21",
-      "total_volume": 10713,
-      "vol_oi_ratio": 3.35,
-      "volume_ratio_vs_avg": null
-    },
-    {
-      "ticker": "BWIN",
-      "direction": "call",
-      "strike": 35.0,
-      "strike_volume": 6762,
-      "expiry": "2026-08-21",
-      "total_volume": 6859,
-      "vol_oi_ratio": 2.9,
-      "volume_ratio_vs_avg": 5.25
-    },
     {
       "ticker": "OUT",
       "direction": "call",
@@ -31,6 +11,26 @@
       "total_volume": 6737,
       "vol_oi_ratio": 1.71,
       "volume_ratio_vs_avg": 5.33
+    },
+    {
+      "ticker": "LASR",
+      "direction": "call",
+      "strike": 43.0,
+      "strike_volume": 606,
+      "expiry": "2026-08-14",
+      "total_volume": 2951,
+      "vol_oi_ratio": 0.6,
+      "volume_ratio_vs_avg": 4.25
+    },
+    {
+      "ticker": "DYN",
+      "direction": "put",
+      "strike": 20.0,
+      "strike_volume": 1955,
+      "expiry": "2026-08-21",
+      "total_volume": 2209,
+      "vol_oi_ratio": 0.75,
+      "volume_ratio_vs_avg": 3.84
     }
   ]
 }
