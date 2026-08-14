@@ -1,6 +1,6 @@
 {
-  "date": "2026-08-13",
-  "updated_at": "2026-08-13T14:05:50.955248+00:00",
+  "date": "2026-08-14",
+  "updated_at": "2026-08-14T13:59:56.171167+00:00",
   "items": [
     {
       "ticker": "HNI",
@@ -10,17 +10,17 @@
       "expiry": "2026-09-18",
       "total_volume": 5478,
       "vol_oi_ratio": 0.5,
-      "volume_ratio_vs_avg": 0.78
+      "volume_ratio_vs_avg": 0.8
     },
     {
-      "ticker": "MBC",
+      "ticker": "ACA",
       "direction": "put",
-      "strike": 10.0,
-      "strike_volume": 2000,
+      "strike": 140.0,
+      "strike_volume": 1678,
       "expiry": "2026-08-21",
-      "total_volume": 3015,
-      "vol_oi_ratio": 2.01,
-      "volume_ratio_vs_avg": null
+      "total_volume": 1797,
+      "vol_oi_ratio": 1.05,
+      "volume_ratio_vs_avg": 1.61
     },
     {
       "ticker": "ITGR",
@@ -28,9 +28,9 @@
       "strike": 120.0,
       "strike_volume": 750,
       "expiry": "2026-08-21",
-      "total_volume": 2062,
-      "vol_oi_ratio": 0.85,
-      "volume_ratio_vs_avg": 1.91
+      "total_volume": 1615,
+      "vol_oi_ratio": 0.67,
+      "volume_ratio_vs_avg": 1.26
     }
   ]
 }
