@@ -1,36 +1,36 @@
 {
-  "date": "2026-08-14",
-  "updated_at": "2026-08-14T13:59:56.171167+00:00",
+  "date": "2026-08-17",
+  "updated_at": "2026-08-17T13:24:49.881634+00:00",
   "items": [
     {
-      "ticker": "HNI",
+      "ticker": "DHT",
       "direction": "call",
-      "strike": 40.0,
-      "strike_volume": 5434,
-      "expiry": "2026-09-18",
-      "total_volume": 5478,
-      "vol_oi_ratio": 0.5,
-      "volume_ratio_vs_avg": 0.8
+      "strike": 18.0,
+      "strike_volume": 59509,
+      "expiry": "2026-08-21",
+      "total_volume": 135135,
+      "vol_oi_ratio": 3.27,
+      "volume_ratio_vs_avg": 69.44
     },
     {
-      "ticker": "ACA",
-      "direction": "put",
-      "strike": 140.0,
-      "strike_volume": 1678,
+      "ticker": "HIW",
+      "direction": "call",
+      "strike": 30.0,
+      "strike_volume": 7201,
       "expiry": "2026-08-21",
-      "total_volume": 1797,
-      "vol_oi_ratio": 1.05,
-      "volume_ratio_vs_avg": 1.61
+      "total_volume": 14534,
+      "vol_oi_ratio": 10.95,
+      "volume_ratio_vs_avg": 46.7
     },
     {
-      "ticker": "ITGR",
-      "direction": "put",
-      "strike": 120.0,
-      "strike_volume": 750,
+      "ticker": "DK",
+      "direction": "call",
+      "strike": 70.0,
+      "strike_volume": 2302,
       "expiry": "2026-08-21",
-      "total_volume": 1615,
-      "vol_oi_ratio": 0.67,
-      "volume_ratio_vs_avg": 1.26
+      "total_volume": 5332,
+      "vol_oi_ratio": 0.63,
+      "volume_ratio_vs_avg": 4.47
     }
   ]
 }
