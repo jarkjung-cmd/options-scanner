@@ -1,16 +1,16 @@
 {
-  "date": "2026-08-19",
-  "updated_at": "2026-08-19T13:29:28.332487+00:00",
+  "date": "2026-08-20",
+  "updated_at": "2026-08-20T13:31:13.251290+00:00",
   "items": [
     {
-      "ticker": "TMDX",
-      "direction": "put",
-      "strike": 80.0,
-      "strike_volume": 5008,
-      "expiry": "2026-09-18",
-      "total_volume": 16810,
-      "vol_oi_ratio": 0.53,
-      "volume_ratio_vs_avg": 8.01
+      "ticker": "BULL",
+      "direction": "call",
+      "strike": 8.0,
+      "strike_volume": 45126,
+      "expiry": "2026-08-21",
+      "total_volume": 168783,
+      "vol_oi_ratio": 0.71,
+      "volume_ratio_vs_avg": 12.29
     },
     {
       "ticker": "HIW",
@@ -20,7 +20,7 @@
       "expiry": "2026-08-21",
       "total_volume": 7341,
       "vol_oi_ratio": 7.58,
-      "volume_ratio_vs_avg": 3.53
+      "volume_ratio_vs_avg": 2.75
     },
     {
       "ticker": "APAM",
@@ -28,9 +28,9 @@
       "strike": 35.0,
       "strike_volume": 2520,
       "expiry": "2026-08-21",
-      "total_volume": 5201,
-      "vol_oi_ratio": 1.06,
-      "volume_ratio_vs_avg": 4.52
+      "total_volume": 5281,
+      "vol_oi_ratio": 1.09,
+      "volume_ratio_vs_avg": 3.51
     }
   ]
 }
