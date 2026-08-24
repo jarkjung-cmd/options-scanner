@@ -1,5 +1,4 @@
 name: Options Scanner Daily Run
-
 on:
   schedule:
     # cron은 항상 UTC 기준으로 실행되고, GitHub 서버 시간은 UTC라 변하지 않습니다.
@@ -21,27 +20,22 @@ on:
     # UTC 12:37 ≈ 한국시간 21:37(밤 9시 37분경, 원래 목표인 22:00과 큰 차이 없음)
     - cron: "37 12 * * 1-5"   # 평일만 (월~금), 혼잡 회피용으로 37분에 실행
   workflow_dispatch: {}       # 수동 실행 버튼도 추가 (테스트용)
-
 jobs:
   scan:
     runs-on: ubuntu-latest
     permissions:
       contents: write   # 히스토리 CSV를 리포지토리에 커밋하기 위해 필요
-
     steps:
       - name: 리포지토리 체크아웃
         uses: actions/checkout@v4
-
       - name: Python 설정
         uses: actions/setup-python@v5
         with:
           python-version: "3.11"
-
       - name: 패키지 설치
         run: |
-          pip install yfinance pandas requests playwright
+          pip install yfinance pandas requests playwright lxml
           playwright install --with-deps chromium
-
       - name: 스캐너 실행
         working-directory: scanner
         env:
@@ -49,12 +43,10 @@ jobs:
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
           TELEGRAM_ADMIN_CHAT_ID: ${{ secrets.TELEGRAM_ADMIN_CHAT_ID }}
         run: python unusual_options_scanner.py
-
       - name: 히스토리/결과 파일 커밋
         run: |
           git config user.name "options-scanner-bot"
           git config user.email "actions@github.com"
-
           # 파일이 아직 생성되지 않은 경우(예: performance_tracking.csv는
           # 체크포인트에 도달한 종목이 있어야 처음 생성됨)에도 에러 없이
           # 넘어가도록 존재하는 파일만 골라서 add 합니다.
@@ -66,6 +58,5 @@ jobs:
               echo "스킵 (아직 없음): $f"
             fi
           done
-
           git diff --staged --quiet || git commit -m "Daily scan results $(date -u +%Y-%m-%d)"
           git push
