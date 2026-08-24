@@ -50,17 +50,25 @@ except ImportError:
 
 # =========================== CONFIG ===========================
 
+# --- 스캔 대상 유니버스 설정 ---
+# 어떤 지수의 종목들을 스캔 대상에 포함할지 선택 (여러 개 동시 가능, 중복은 자동 제거됨)
+INCLUDE_RUSSELL2000 = True   # 소형주 (기존 기본값)
+INCLUDE_SP500 = True         # 대형주 500개
+INCLUDE_NASDAQ100 = True     # 나스닥 상위 100개 (S&P500과 상당 부분 겹침 - 자동 중복제거됨)
+
 # 병렬 처리 워커 수 (너무 높으면 yfinance/야후 서버에서 rate limit 걸릴 수 있음)
 MAX_WORKERS = 8
+
+# 최종 결과를 대형주(S&P500+나스닥100) / 소형주(러셀2000) 두 그룹으로
+# 나눠서 각각 최대 몇 개씩 뽑을지. 필터(MIN_VOL_OI_RATIO)를 통과하는 종목이
+# 이 숫자보다 적으면 억지로 채우지 않고 그만큼만 나옵니다.
+TOP_N_PER_GROUP = 5
 
 # 종목당 요청 사이 최소 간격(초) - rate limit 방지용. 필요시 늘리세요.
 REQUEST_DELAY = 0.15
 
 # 옵션 만기 중 앞에서부터 몇 개를 합산할지 (가까운 만기 위주로 봄)
 NUM_EXPIRIES_TO_CHECK = 2
-
-# 결과 상위 몇 개를 보여줄지
-TOP_N = 30
 
 # Volume/OpenInterest 비율이 이 값 이상인 경우만 1차 후보로 포함
 MIN_VOL_OI_RATIO = 0.5
@@ -170,6 +178,101 @@ def get_russell2000_tickers():
             "SMCI", "IONQ", "SOUN", "RKLB", "CELH", "PLUG", "FUBO", "CLSK",
             "MARA", "RIOT", "UPST", "AFRM", "SIRI", "PARA", "CHPT", "BBAI",
         ]
+
+
+def get_sp500_tickers():
+    """
+    위키피디아 'List of S&P 500 companies' 표에서 티커 리스트를 가져온다.
+    실패하면 GitHub에 공개 호스팅된 데이터셋 CSV로 재시도한다.
+    """
+    try:
+        tables = pd.read_html("https://en.wikipedia.org/wiki/List_of_S%26P_500_companies")
+        df = tables[0]  # 첫 번째 표가 구성종목 리스트
+        tickers = df["Symbol"].astype(str).str.strip().str.replace(".", "-", regex=False).tolist()
+        tickers = [t for t in tickers if t and t != "nan"]
+        if len(tickers) < 400:
+            raise ValueError("파싱된 종목 수가 너무 적습니다.")
+        return sorted(set(tickers))
+    except Exception as e:
+        print(f"[경고] 위키피디아에서 S&P500 리스트 가져오기 실패: {e}")
+        try:
+            url = "https://raw.githubusercontent.com/datasets/s-and-p-500-companies/master/data/constituents.csv"
+            df = pd.read_csv(url)
+            tickers = df["Symbol"].astype(str).str.strip().tolist()
+            if len(tickers) < 400:
+                raise ValueError("파싱된 종목 수가 너무 적습니다.")
+            return sorted(set(tickers))
+        except Exception as e2:
+            print(f"[경고] GitHub 데이터셋에서도 S&P500 가져오기 실패: {e2}")
+            return []
+
+
+def get_nasdaq100_tickers():
+    """
+    위키피디아 'Nasdaq-100' 표에서 티커 리스트를 가져온다.
+    """
+    try:
+        tables = pd.read_html("https://en.wikipedia.org/wiki/Nasdaq-100")
+        # 표 구조가 가끔 바뀌므로, 'Ticker'라는 컬럼이 있는 표를 찾는다
+        target_df = None
+        for t in tables:
+            cols = [str(c) for c in t.columns]
+            if any("Ticker" in c for c in cols):
+                target_df = t
+                break
+        if target_df is None:
+            raise ValueError("Ticker 컬럼이 있는 표를 못 찾음")
+        ticker_col = next(c for c in target_df.columns if "Ticker" in str(c))
+        tickers = target_df[ticker_col].astype(str).str.strip().tolist()
+        tickers = [t for t in tickers if t and t != "nan"]
+        if len(tickers) < 80:
+            raise ValueError("파싱된 종목 수가 너무 적습니다.")
+        return sorted(set(tickers))
+    except Exception as e:
+        print(f"[경고] 위키피디아에서 나스닥100 리스트 가져오기 실패: {e}")
+        return []
+
+
+def get_combined_universe():
+    """
+    설정(INCLUDE_RUSSELL2000/INCLUDE_SP500/INCLUDE_NASDAQ100)에 따라
+    여러 지수의 종목 리스트를 가져와 합치고 중복 제거한 최종 스캔 대상을 만든다.
+
+    반환값: (전체 티커 리스트, {티커: 그룹} 매핑 딕셔너리)
+    그룹은 'large_cap'(S&P500/나스닥100) 또는 'small_cap'(러셀2000) 둘 중 하나.
+    한 종목이 두 그룹에 다 속하면(드물지만) large_cap 우선.
+    """
+    all_tickers = set()
+    sources_used = []
+    group_map = {}
+
+    # 먼저 소형주(러셀2000)로 채워두고, 대형주 목록으로 덮어써서 large_cap이 우선되게 함
+    if INCLUDE_RUSSELL2000:
+        r2000 = get_russell2000_tickers()
+        all_tickers.update(r2000)
+        for t in r2000:
+            group_map[t] = "small_cap"
+        sources_used.append(f"Russell 2000: {len(r2000)}개")
+
+    if INCLUDE_SP500:
+        sp500 = get_sp500_tickers()
+        all_tickers.update(sp500)
+        for t in sp500:
+            group_map[t] = "large_cap"
+        sources_used.append(f"S&P 500: {len(sp500)}개")
+
+    if INCLUDE_NASDAQ100:
+        ndx100 = get_nasdaq100_tickers()
+        all_tickers.update(ndx100)
+        for t in ndx100:
+            group_map[t] = "large_cap"
+        sources_used.append(f"Nasdaq 100: {len(ndx100)}개")
+
+    for s in sources_used:
+        print(f"  - {s}")
+    print(f"  - 중복 제거 후 총 스캔 대상: {len(all_tickers)}개")
+
+    return sorted(all_tickers), group_map
 
 
 def fetch_option_summary(ticker: str):
@@ -607,12 +710,45 @@ def send_telegram_message_to(chat_id: str, text: str):
             print(f"[경고] 관리자 텔레그램 전송 중 오류: {e}")
 
 
+def _format_ticker_lines(row) -> list:
+    """한 종목에 대한 텔레그램 메시지 두 줄(요약 + 행사가 정보)을 만든다."""
+    is_call_heavy = row["put_call_ratio"] < 1
+    direction = "Call-heavy" if is_call_heavy else "Put-heavy"
+
+    first_line = (
+        f"• <b>{row['ticker']}</b> — Vol {int(row['total_volume']):,} "
+        f"(Vol/OI {row['vol_oi_ratio']}, {direction}"
+    )
+    if pd.notna(row.get("volume_ratio_vs_avg")) and row["volume_ratio_vs_avg"] != 1.0:
+        first_line += f", {row['volume_ratio_vs_avg']}x avg"
+    first_line += ")"
+
+    result = [first_line]
+
+    if is_call_heavy:
+        strike = row.get("top_call_strike")
+        vol = row.get("top_call_strike_volume")
+        expiry = row.get("top_call_expiry")
+    else:
+        strike = row.get("top_put_strike")
+        vol = row.get("top_put_strike_volume")
+        expiry = row.get("top_put_expiry")
+
+    if pd.notna(strike) and pd.notna(vol):
+        option_word = "call" if is_call_heavy else "put"
+        expiry_str = f", exp {expiry}" if pd.notna(expiry) and expiry else ""
+        result.append(f"   └ Concentrated at ${strike:g} {option_word}{expiry_str} (vol {int(vol):,})")
+
+    return result
+
+
 def format_telegram_message(df: pd.DataFrame) -> str:
     """
     상위 종목 데이터를 텔레그램용 영어 텍스트로 포맷팅한다.
     (구독자가 해외 사용자 위주이므로 텔레그램 발송 메시지는 영어로 작성)
     - 히스토리가 없어 평균 대비 배율을 모를 경우, 해당 문구는 아예 생략한다.
     - 콜/풋 중 우위인 방향의 행사가(strike)와 만기, 그 행사가에 몰린 거래량을 함께 보여준다.
+    - df에 'group' 컬럼(large_cap/small_cap)이 있으면 섹션을 나눠서 보여준다.
     """
     today_str = datetime.date.today().isoformat()
     lines = [f"<b>Unusual Options Activity Scan ({today_str})</b>", ""]
@@ -622,38 +758,30 @@ def format_telegram_message(df: pd.DataFrame) -> str:
         lines.append("No tickers matched today's criteria.")
         return "\n".join(lines)
 
-    for _, row in top.iterrows():
-        is_call_heavy = row["put_call_ratio"] < 1
-        direction = "Call-heavy" if is_call_heavy else "Put-heavy"
+    if "group" in top.columns:
+        large_cap = top[top["group"] == "large_cap"]
+        small_cap = top[top["group"] == "small_cap"]
 
-        # 첫 줄: 종목, 총거래량, Vol/OI, (있으면) 평균대비 배율, 방향
-        first_line = (
-            f"• <b>{row['ticker']}</b> — Vol {int(row['total_volume']):,} "
-            f"(Vol/OI {row['vol_oi_ratio']}, {direction}"
-        )
-        if pd.notna(row.get("volume_ratio_vs_avg")) and row["volume_ratio_vs_avg"] != 1.0:
-            first_line += f", {row['volume_ratio_vs_avg']}x avg"
-        first_line += ")"
-        lines.append(first_line)
+        if not large_cap.empty:
+            lines.append("📈 <b>Large-Cap (S&P 500 / Nasdaq 100)</b>")
+            for _, row in large_cap.iterrows():
+                lines.extend(_format_ticker_lines(row))
+            lines.append("")
 
-        # 둘째 줄: 우위 방향의 행사가 집중 정보
-        if is_call_heavy:
-            strike = row.get("top_call_strike")
-            vol = row.get("top_call_strike_volume")
-            expiry = row.get("top_call_expiry")
-        else:
-            strike = row.get("top_put_strike")
-            vol = row.get("top_put_strike_volume")
-            expiry = row.get("top_put_expiry")
+        if not small_cap.empty:
+            lines.append("📊 <b>Small-Cap (Russell 2000)</b>")
+            for _, row in small_cap.iterrows():
+                lines.extend(_format_ticker_lines(row))
+            lines.append("")
 
-        if pd.notna(strike) and pd.notna(vol):
-            option_word = "call" if is_call_heavy else "put"
-            expiry_str = f", exp {expiry}" if pd.notna(expiry) and expiry else ""
-            lines.append(
-                f"   └ Concentrated at ${strike:g} {option_word}{expiry_str} (vol {int(vol):,})"
-            )
+        if large_cap.empty and small_cap.empty:
+            lines.append("No tickers matched today's criteria.")
+    else:
+        # group 정보 없으면 기존 방식대로 그냥 나열 (하위 호환)
+        for _, row in top.iterrows():
+            lines.extend(_format_ticker_lines(row))
+        lines.append("")
 
-    lines.append("")
     lines.append("⚠️ Not investment advice. For informational/screening purposes only.")
     return "\n".join(lines)
 
@@ -773,9 +901,14 @@ def update_performance_tracking():
     print(f"[성과 추적] {len(new_records)}건 신규 체크포인트 결과 기록 완료")
 
 
+# 이 값(%) 이상 움직인 종목을 "빅무버"로 따로 뽑아서 보여준다
+BIG_MOVE_THRESHOLD_PCT = 20
+
+
 def build_performance_summary() -> str:
     """
-    performance_tracking.csv를 집계해서 체크포인트별 적중률 요약 텍스트를 만든다.
+    performance_tracking.csv를 집계해서 체크포인트별 적중률 요약 텍스트를 만들고,
+    BIG_MOVE_THRESHOLD_PCT(%) 이상 크게 움직인 종목은 실제 가격 변화까지 별도로 보여준다.
     관리자 텔레그램으로만 보내는 용도 (고객 대상 성과 주장은 규제 리스크가 있으므로 비공개).
     """
     if not os.path.exists(PERFORMANCE_FILE):
@@ -797,6 +930,107 @@ def build_performance_summary() -> str:
 
     lines.append("")
     lines.append("⚠️ 표본이 적을수록 신뢰도가 낮습니다. 고객 대상 마케팅에 활용 전 반드시 표본 크기를 확인하세요.")
+
+    # --- 20% 이상 크게 움직인 종목 리스트 ---
+    big_movers = perf[perf["pct_change"].abs() >= BIG_MOVE_THRESHOLD_PCT].copy()
+    if not big_movers.empty:
+        big_movers = big_movers.sort_values("pct_change", key=lambda s: s.abs(), ascending=False)
+
+        lines.append("")
+        lines.append(f"🚀 <b>{BIG_MOVE_THRESHOLD_PCT}% 이상 움직인 종목</b>")
+        lines.append("")
+        for _, row in big_movers.iterrows():
+            direction_kr = "콜" if row["direction"] == "call" else "풋"
+            hit_mark = "✅ 적중" if row["hit"] else "❌ 반대방향"
+            sign = "+" if row["pct_change"] > 0 else ""
+            lines.append(
+                f"• <b>{row['ticker']}</b> ({direction_kr} 플래그, {row['checkpoint_days']}거래일 후) — "
+                f"${row['price_at_flag']:.2f} → ${row['price_at_checkpoint']:.2f} "
+                f"({sign}{row['pct_change']:.1f}%) {hit_mark}"
+            )
+            lines.append(f"   플래그일: {row['flag_date']} · 체크일: {row['checked_date']}")
+    else:
+        lines.append("")
+        lines.append(f"🚀 {BIG_MOVE_THRESHOLD_PCT}% 이상 움직인 종목: 아직 없음")
+
+    return "\n".join(lines)
+
+
+def build_daily_social_digest() -> str:
+    """
+    오늘 새로 성과가 확인된 종목 중 가장 크게 움직인 종목으로
+    X(트위터)/인스타·Threads용 '케이스 스터디' 초안을 자동으로 만든다.
+
+    체리피킹 방지를 위해, 해당 체크포인트의 전체 적중률(맥락)을
+    반드시 문구 안에 같이 포함시킨다. 오늘 새로운 빅무버가 없으면
+    최신 적중률 통계만 참고용으로 보낸다.
+
+    관리자 텔레그램으로만 보내는 초안입니다. 실제 포스팅 여부/문구
+    수정은 사람이 검토 후 결정하세요.
+    """
+    if not os.path.exists(PERFORMANCE_FILE):
+        return None
+
+    perf = pd.read_csv(PERFORMANCE_FILE)
+    if perf.empty:
+        return None
+
+    today_str = datetime.date.today().isoformat()
+    new_today = perf[perf["checked_date"] == today_str]
+    big_new = new_today[new_today["pct_change"].abs() >= BIG_MOVE_THRESHOLD_PCT]
+    big_new = big_new.sort_values("pct_change", key=lambda s: s.abs(), ascending=False)
+
+    lines = ["📱 <b>오늘의 SNS 소재 초안 (참고용, 검토 후 사용)</b>", ""]
+
+    if big_new.empty:
+        lines.append(f"오늘 새로 {BIG_MOVE_THRESHOLD_PCT}% 이상 움직인 종목은 없습니다.")
+        lines.append("아래는 참고용 최신 적중률입니다:")
+        lines.append("")
+        for checkpoint in sorted(perf["checkpoint_days"].unique()):
+            subset = perf[perf["checkpoint_days"] == checkpoint]
+            hit_rate = subset["hit"].mean() * 100
+            lines.append(f"• {checkpoint}거래일 적중률: {hit_rate:.1f}% (표본 {len(subset)}건)")
+        return "\n".join(lines)
+
+    hero = big_new.iloc[0]
+    checkpoint = int(hero["checkpoint_days"])
+    same_checkpoint = perf[perf["checkpoint_days"] == checkpoint]
+    hit_rate_ctx = same_checkpoint["hit"].mean() * 100
+    sample_n = len(same_checkpoint)
+
+    direction_word = "call" if hero["direction"] == "call" else "put"
+    sign = "+" if hero["pct_change"] > 0 else ""
+
+    twitter_caption = (
+        f"${hero['ticker']} was flagged {direction_word}-heavy {checkpoint} trading days ago.\n\n"
+        f"Price moved {sign}{hero['pct_change']:.1f}% since (${hero['price_at_flag']:.2f} → "
+        f"${hero['price_at_checkpoint']:.2f}).\n\n"
+        f"Context: our {checkpoint}-day hit rate across all flags is {hit_rate_ctx:.1f}% "
+        f"(n={sample_n}) — one signal is one data point, not a guarantee.\n\n"
+        f"Free trial → [link]"
+    )
+
+    ig_caption = (
+        f"Case study: ${hero['ticker']}\n\n"
+        f"Flagged {direction_word}-heavy {checkpoint} trading days ago at ${hero['price_at_flag']:.2f}.\n"
+        f"Now at ${hero['price_at_checkpoint']:.2f} ({sign}{hero['pct_change']:.1f}%).\n\n"
+        f"To be transparent: across all our flags, the {checkpoint}-day hit rate is "
+        f"{hit_rate_ctx:.1f}% (n={sample_n}). We show the real numbers, wins and losses alike.\n\n"
+        f"Free trial, link in bio.\n"
+        f"#OptionsFlow #SmallCapStocks #OptionsTrading"
+    )
+
+    lines.append(f"오늘의 하이라이트: ${hero['ticker']} ({sign}{hero['pct_change']:.1f}%, {checkpoint}거래일 후)")
+    lines.append("")
+    lines.append("--- X(트위터)용 ---")
+    lines.append(twitter_caption)
+    lines.append("")
+    lines.append("--- 인스타/Threads용 ---")
+    lines.append(ig_caption)
+    lines.append("")
+    lines.append("⚠️ 적중률 맥락 문구는 체리피킹 방지용이니 지우지 말고 그대로 사용하세요.")
+    lines.append("⚠️ [link]는 실제 랜딩페이지 주소로 바꿔서 사용하세요.")
+
     return "\n".join(lines)
 
 
@@ -847,12 +1081,12 @@ def write_homepage_data(top_df: pd.DataFrame):
 
 def main():
     print("=" * 60)
-    print("Unusual Options Activity Scanner - Russell 2000")
+    print("Unusual Options Activity Scanner - Multi-Index")
     print("=" * 60)
 
-    print("\n[1/4] 러셀2000 티커 리스트 가져오는 중...")
-    tickers = get_russell2000_tickers()
-    print(f"  대상 종목 수: {len(tickers)}개")
+    print("\n[1/4] 스캔 대상 티커 리스트 가져오는 중...")
+    tickers, group_map = get_combined_universe()
+    print(f"  최종 대상 종목 수: {len(tickers)}개")
 
     print(f"\n[2/4] 옵션 데이터 수집 중 (병렬 워커 {MAX_WORKERS}개)...")
     print("  * 종목 수가 많으면 수 분~수십 분 소요될 수 있습니다.")
@@ -869,7 +1103,16 @@ def main():
     df = df[df["vol_oi_ratio"] >= MIN_VOL_OI_RATIO]
     df = compute_score(df)
 
-    top = df.head(TOP_N)
+    # 대형주(S&P500/나스닥100) / 소형주(러셀2000) 그룹으로 나눠서
+    # 각각 최대 TOP_N_PER_GROUP개씩 (필터 통과 종목이 적으면 그만큼만)
+    df["group"] = df["ticker"].map(group_map).fillna("small_cap")
+    large_cap_top = df[df["group"] == "large_cap"].sort_values("score", ascending=False).head(TOP_N_PER_GROUP)
+    small_cap_top = df[df["group"] == "small_cap"].sort_values("score", ascending=False).head(TOP_N_PER_GROUP)
+    top = pd.concat([large_cap_top, small_cap_top], ignore_index=True)
+
+    print(f"  대형주(S&P500/나스닥100) 조건 통과: {len(large_cap_top)}개 선정")
+    print(f"  소형주(러셀2000) 조건 통과: {len(small_cap_top)}개 선정")
+
     os.makedirs(os.path.dirname(OUTPUT_FILE) or ".", exist_ok=True)
     top.to_csv(OUTPUT_FILE, index=False)
 
@@ -902,6 +1145,10 @@ def main():
     if TELEGRAM_ADMIN_CHAT_ID:
         summary = build_performance_summary()
         send_telegram_message_to(TELEGRAM_ADMIN_CHAT_ID, summary)
+
+        digest = build_daily_social_digest()
+        if digest:
+            send_telegram_message_to(TELEGRAM_ADMIN_CHAT_ID, digest)
 
     print("완료.")
 
