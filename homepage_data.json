@@ -1,36 +1,36 @@
 {
-  "date": "2026-08-26",
-  "updated_at": "2026-08-26T13:38:40.719004+00:00",
+  "date": "2026-08-27",
+  "updated_at": "2026-08-27T22:34:02.874270+00:00",
   "items": [
     {
-      "ticker": "AAPL",
+      "ticker": "CRM",
       "direction": "call",
-      "strike": 312.5,
-      "strike_volume": 63972,
-      "expiry": "2026-08-26",
-      "total_volume": 508323,
-      "vol_oi_ratio": 1.55,
-      "volume_ratio_vs_avg": 2.0
-    },
-    {
-      "ticker": "AMZN",
-      "direction": "call",
-      "strike": 265.0,
-      "strike_volume": 26632,
-      "expiry": "2026-08-26",
-      "total_volume": 335751,
-      "vol_oi_ratio": 1.25,
-      "volume_ratio_vs_avg": 1.47
-    },
-    {
-      "ticker": "AMD",
-      "direction": "call",
-      "strike": 500.0,
-      "strike_volume": 16458,
+      "strike": 250.0,
+      "strike_volume": 31234,
       "expiry": "2026-08-28",
-      "total_volume": 283476,
-      "vol_oi_ratio": 1.18,
-      "volume_ratio_vs_avg": 3.08
+      "total_volume": 292566,
+      "vol_oi_ratio": 2.26,
+      "volume_ratio_vs_avg": 14.51
+    },
+    {
+      "ticker": "CRWD",
+      "direction": "call",
+      "strike": 230.0,
+      "strike_volume": 14264,
+      "expiry": "2026-08-28",
+      "total_volume": 209740,
+      "vol_oi_ratio": 1.62,
+      "volume_ratio_vs_avg": 5.84
+    },
+    {
+      "ticker": "CLYM",
+      "direction": "put",
+      "strike": 15.0,
+      "strike_volume": 15628,
+      "expiry": "2026-09-18",
+      "total_volume": 33015,
+      "vol_oi_ratio": 3.22,
+      "volume_ratio_vs_avg": 8.52
     }
   ]
 }
