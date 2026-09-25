@@ -1,36 +1,36 @@
 {
-  "date": "2026-09-24",
-  "updated_at": "2026-09-24T17:32:15.756465+00:00",
+  "date": "2026-09-25",
+  "updated_at": "2026-09-25T17:31:33.239335+00:00",
   "items": [
     {
-      "ticker": "AAPL",
+      "ticker": "AI",
       "direction": "call",
-      "strike": 340.0,
-      "strike_volume": 91166,
+      "strike": 11.0,
+      "strike_volume": 47156,
       "expiry": "2026-09-25",
-      "total_volume": 504986,
-      "vol_oi_ratio": 1.46,
-      "volume_ratio_vs_avg": 0.63
+      "total_volume": 146896,
+      "vol_oi_ratio": 1.31,
+      "volume_ratio_vs_avg": 3.86
     },
     {
-      "ticker": "AMD",
+      "ticker": "BE",
       "direction": "call",
-      "strike": 630.0,
-      "strike_volume": 13426,
+      "strike": 285.0,
+      "strike_volume": 12627,
       "expiry": "2026-09-25",
-      "total_volume": 282740,
-      "vol_oi_ratio": 0.98,
-      "volume_ratio_vs_avg": 1.02
+      "total_volume": 126993,
+      "vol_oi_ratio": 0.87,
+      "volume_ratio_vs_avg": 2.7
     },
     {
-      "ticker": "CTMX",
-      "direction": "put",
-      "strike": 4.0,
-      "strike_volume": 4200,
-      "expiry": "2026-10-16",
-      "total_volume": 8527,
-      "vol_oi_ratio": 1.24,
-      "volume_ratio_vs_avg": 5.6
+      "ticker": "COST",
+      "direction": "call",
+      "strike": 920.0,
+      "strike_volume": 3121,
+      "expiry": "2026-09-25",
+      "total_volume": 58997,
+      "vol_oi_ratio": 0.65,
+      "volume_ratio_vs_avg": 3.39
     }
   ]
 }
