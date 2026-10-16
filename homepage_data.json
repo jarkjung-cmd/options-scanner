@@ -1,36 +1,36 @@
 {
-  "date": "2026-10-15",
-  "updated_at": "2026-10-15T17:19:55.095349+00:00",
+  "date": "2026-10-16",
+  "updated_at": "2026-10-16T16:55:16.609398+00:00",
   "items": [
+    {
+      "ticker": "AAPL",
+      "direction": "call",
+      "strike": 347.5,
+      "strike_volume": 140877,
+      "expiry": "2026-10-16",
+      "total_volume": 960491,
+      "vol_oi_ratio": 1.09,
+      "volume_ratio_vs_avg": 1.18
+    },
     {
       "ticker": "AMD",
       "direction": "call",
       "strike": 550.0,
-      "strike_volume": 19386,
+      "strike_volume": 20861,
       "expiry": "2026-10-16",
-      "total_volume": 271190,
-      "vol_oi_ratio": 0.61,
+      "total_volume": 263787,
+      "vol_oi_ratio": 0.58,
       "volume_ratio_vs_avg": 0.83
     },
     {
-      "ticker": "DELL",
-      "direction": "call",
-      "strike": 500.0,
-      "strike_volume": 7010,
+      "ticker": "BX",
+      "direction": "put",
+      "strike": 135.0,
+      "strike_volume": 26096,
       "expiry": "2026-10-16",
-      "total_volume": 105137,
-      "vol_oi_ratio": 0.6,
-      "volume_ratio_vs_avg": 1.72
-    },
-    {
-      "ticker": "ABBV",
-      "direction": "call",
-      "strike": 240.0,
-      "strike_volume": 4136,
-      "expiry": "2026-10-16",
-      "total_volume": 20546,
-      "vol_oi_ratio": 0.62,
-      "volume_ratio_vs_avg": 4.28
+      "total_volume": 42037,
+      "vol_oi_ratio": 0.56,
+      "volume_ratio_vs_avg": 7.36
     }
   ]
 }
