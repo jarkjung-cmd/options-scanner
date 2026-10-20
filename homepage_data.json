@@ -1,36 +1,36 @@
 {
-  "date": "2026-10-19",
-  "updated_at": "2026-10-19T18:50:58.119072+00:00",
+  "date": "2026-10-20",
+  "updated_at": "2026-10-20T17:30:26.617285+00:00",
   "items": [
     {
-      "ticker": "AAPL",
-      "direction": "call",
-      "strike": 345.0,
-      "strike_volume": 170076,
-      "expiry": "2026-10-19",
-      "total_volume": 904162,
-      "vol_oi_ratio": 6.97,
-      "volume_ratio_vs_avg": 1.11
+      "ticker": "CLOV",
+      "direction": "put",
+      "strike": 4.5,
+      "strike_volume": 9699,
+      "expiry": "2026-10-30",
+      "total_volume": 21531,
+      "vol_oi_ratio": 0.76,
+      "volume_ratio_vs_avg": 2.65
     },
     {
-      "ticker": "AMZN",
+      "ticker": "BRZE",
       "direction": "call",
-      "strike": 262.5,
-      "strike_volume": 121158,
-      "expiry": "2026-10-19",
-      "total_volume": 796597,
-      "vol_oi_ratio": 8.74,
-      "volume_ratio_vs_avg": 2.14
+      "strike": 32.5,
+      "strike_volume": 5960,
+      "expiry": "2026-11-20",
+      "total_volume": 12064,
+      "vol_oi_ratio": 0.58,
+      "volume_ratio_vs_avg": 4.25
     },
     {
-      "ticker": "AMD",
-      "direction": "call",
-      "strike": 550.0,
-      "strike_volume": 29867,
-      "expiry": "2026-10-19",
-      "total_volume": 381371,
-      "vol_oi_ratio": 4.23,
-      "volume_ratio_vs_avg": 1.23
+      "ticker": "ABT",
+      "direction": "put",
+      "strike": 100.0,
+      "strike_volume": 1359,
+      "expiry": "2026-10-23",
+      "total_volume": 10979,
+      "vol_oi_ratio": 0.67,
+      "volume_ratio_vs_avg": 3.91
     }
   ]
 }
