@@ -1,36 +1,36 @@
 {
-  "date": "2026-10-21",
-  "updated_at": "2026-10-21T17:38:19.884375+00:00",
+  "date": "2026-10-22",
+  "updated_at": "2026-10-22T17:35:52.729535+00:00",
   "items": [
     {
-      "ticker": "AAPL",
+      "ticker": "CSX",
       "direction": "call",
-      "strike": 345.0,
-      "strike_volume": 184699,
-      "expiry": "2026-10-21",
-      "total_volume": 992336,
-      "vol_oi_ratio": 2.58,
-      "volume_ratio_vs_avg": 1.28
-    },
-    {
-      "ticker": "CARG",
-      "direction": "put",
-      "strike": 27.0,
-      "strike_volume": 4557,
-      "expiry": "2026-11-20",
-      "total_volume": 9515,
-      "vol_oi_ratio": 0.6,
-      "volume_ratio_vs_avg": 2.8
-    },
-    {
-      "ticker": "APO",
-      "direction": "call",
-      "strike": 115.0,
-      "strike_volume": 3103,
+      "strike": 52.0,
+      "strike_volume": 26437,
       "expiry": "2026-10-23",
-      "total_volume": 7918,
-      "vol_oi_ratio": 0.61,
-      "volume_ratio_vs_avg": 2.57
+      "total_volume": 55520,
+      "vol_oi_ratio": 0.87,
+      "volume_ratio_vs_avg": 17.02
+    },
+    {
+      "ticker": "ALL",
+      "direction": "put",
+      "strike": 230.0,
+      "strike_volume": 1627,
+      "expiry": "2026-11-20",
+      "total_volume": 7850,
+      "vol_oi_ratio": 0.56,
+      "volume_ratio_vs_avg": 6.38
+    },
+    {
+      "ticker": "DECK",
+      "direction": "put",
+      "strike": 77.0,
+      "strike_volume": 618,
+      "expiry": "2026-10-30",
+      "total_volume": 7352,
+      "vol_oi_ratio": 0.5,
+      "volume_ratio_vs_avg": 3.24
     }
   ]
 }
