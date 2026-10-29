@@ -1,35 +1,35 @@
 {
-  "date": "2026-10-28",
-  "updated_at": "2026-10-28T18:29:32.946802+00:00",
+  "date": "2026-10-29",
+  "updated_at": "2026-10-29T18:39:41.674779+00:00",
   "items": [
     {
-      "ticker": "BSX",
+      "ticker": "BA",
       "direction": "call",
-      "strike": 46.0,
-      "strike_volume": 1583,
-      "expiry": "2026-11-06",
-      "total_volume": 22310,
-      "vol_oi_ratio": 0.54,
-      "volume_ratio_vs_avg": 3.37
+      "strike": 175.0,
+      "strike_volume": 9781,
+      "expiry": "2026-10-30",
+      "total_volume": 71522,
+      "vol_oi_ratio": 0.52,
+      "volume_ratio_vs_avg": 1.86
     },
     {
-      "ticker": "BAX",
+      "ticker": "CVNA",
       "direction": "call",
-      "strike": 26.0,
-      "strike_volume": 3257,
+      "strike": 60.0,
+      "strike_volume": 6210,
       "expiry": "2026-10-30",
-      "total_volume": 10208,
-      "vol_oi_ratio": 2.05,
-      "volume_ratio_vs_avg": 10.8
+      "total_volume": 55496,
+      "vol_oi_ratio": 0.61,
+      "volume_ratio_vs_avg": 3.33
     },
     {
-      "ticker": "AMBA",
-      "direction": "put",
-      "strike": 65.0,
-      "strike_volume": 1706,
+      "ticker": "CAT",
+      "direction": "call",
+      "strike": 660.0,
+      "strike_volume": 1028,
       "expiry": "2026-10-30",
-      "total_volume": 6445,
-      "vol_oi_ratio": 0.67,
+      "total_volume": 20414,
+      "vol_oi_ratio": 0.51,
       "volume_ratio_vs_avg": 2.17
     }
   ]
