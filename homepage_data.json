@@ -1,36 +1,36 @@
 {
-  "date": "2026-10-29",
-  "updated_at": "2026-10-29T18:39:41.674779+00:00",
+  "date": "2026-10-30",
+  "updated_at": "2026-10-30T18:11:42.244547+00:00",
   "items": [
     {
-      "ticker": "BA",
+      "ticker": "AMZN",
       "direction": "call",
-      "strike": 175.0,
-      "strike_volume": 9781,
+      "strike": 240.0,
+      "strike_volume": 104519,
       "expiry": "2026-10-30",
-      "total_volume": 71522,
-      "vol_oi_ratio": 0.52,
-      "volume_ratio_vs_avg": 1.86
+      "total_volume": 849261,
+      "vol_oi_ratio": 1.36,
+      "volume_ratio_vs_avg": 2.48
     },
     {
-      "ticker": "CVNA",
-      "direction": "call",
-      "strike": 60.0,
-      "strike_volume": 6210,
+      "ticker": "AAPL",
+      "direction": "put",
+      "strike": 345.0,
+      "strike_volume": 122087,
       "expiry": "2026-10-30",
-      "total_volume": 55496,
-      "vol_oi_ratio": 0.61,
-      "volume_ratio_vs_avg": 3.33
+      "total_volume": 771086,
+      "vol_oi_ratio": 1.74,
+      "volume_ratio_vs_avg": 1.04
     },
     {
-      "ticker": "CAT",
+      "ticker": "AI",
       "direction": "call",
-      "strike": 660.0,
-      "strike_volume": 1028,
+      "strike": 12.5,
+      "strike_volume": 42182,
       "expiry": "2026-10-30",
-      "total_volume": 20414,
-      "vol_oi_ratio": 0.51,
-      "volume_ratio_vs_avg": 2.17
+      "total_volume": 171125,
+      "vol_oi_ratio": 1.65,
+      "volume_ratio_vs_avg": 28.21
     }
   ]
 }
