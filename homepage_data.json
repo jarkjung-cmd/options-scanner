@@ -1,36 +1,36 @@
 {
-  "date": "2026-11-02",
-  "updated_at": "2026-11-02T21:56:01.648724+00:00",
+  "date": "2026-11-03",
+  "updated_at": "2026-11-03T19:47:01.404014+00:00",
   "items": [
-    {
-      "ticker": "AMZN",
-      "direction": "put",
-      "strike": 247.5,
-      "strike_volume": 113772,
-      "expiry": "2026-11-02",
-      "total_volume": 780021,
-      "vol_oi_ratio": 7.38,
-      "volume_ratio_vs_avg": 2.07
-    },
-    {
-      "ticker": "AMD",
-      "direction": "call",
-      "strike": 482.5,
-      "strike_volume": 26089,
-      "expiry": "2026-11-02",
-      "total_volume": 600417,
-      "vol_oi_ratio": 7.19,
-      "volume_ratio_vs_avg": 2.14
-    },
     {
       "ticker": "CSX",
       "direction": "call",
       "strike": 52.0,
-      "strike_volume": 20535,
+      "strike_volume": 20813,
       "expiry": "2026-11-06",
-      "total_volume": 41213,
-      "vol_oi_ratio": 10.79,
-      "volume_ratio_vs_avg": 5.41
+      "total_volume": 44112,
+      "vol_oi_ratio": 0.99,
+      "volume_ratio_vs_avg": 4.21
+    },
+    {
+      "ticker": "CNP",
+      "direction": "put",
+      "strike": 41.0,
+      "strike_volume": 8812,
+      "expiry": "2026-11-20",
+      "total_volume": 20554,
+      "vol_oi_ratio": 1.06,
+      "volume_ratio_vs_avg": 13.69
+    },
+    {
+      "ticker": "ANET",
+      "direction": "call",
+      "strike": 192.5,
+      "strike_volume": 1292,
+      "expiry": "2026-11-06",
+      "total_volume": 16320,
+      "vol_oi_ratio": 0.64,
+      "volume_ratio_vs_avg": 1.73
     }
   ]
 }
