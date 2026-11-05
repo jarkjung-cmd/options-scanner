@@ -1,36 +1,36 @@
 {
-  "date": "2026-11-04",
-  "updated_at": "2026-11-04T20:00:51.045172+00:00",
+  "date": "2026-11-05",
+  "updated_at": "2026-11-05T20:15:31.014146+00:00",
   "items": [
-    {
-      "ticker": "AMZN",
-      "direction": "call",
-      "strike": 270.0,
-      "strike_volume": 143239,
-      "expiry": "2026-11-04",
-      "total_volume": 836140,
-      "vol_oi_ratio": 2.87,
-      "volume_ratio_vs_avg": 2.08
-    },
     {
       "ticker": "APP",
       "direction": "call",
-      "strike": 330.0,
-      "strike_volume": 1875,
+      "strike": 400.0,
+      "strike_volume": 8482,
       "expiry": "2026-11-06",
-      "total_volume": 34145,
-      "vol_oi_ratio": 0.68,
-      "volume_ratio_vs_avg": 3.18
+      "total_volume": 93105,
+      "vol_oi_ratio": 1.34,
+      "volume_ratio_vs_avg": 7.8
     },
     {
-      "ticker": "CVS",
-      "direction": "call",
-      "strike": 85.0,
-      "strike_volume": 1519,
+      "ticker": "BMY",
+      "direction": "put",
+      "strike": 60.0,
+      "strike_volume": 8680,
+      "expiry": "2026-11-13",
+      "total_volume": 21413,
+      "vol_oi_ratio": 1.08,
+      "volume_ratio_vs_avg": 4.49
+    },
+    {
+      "ticker": "ABNB",
+      "direction": "put",
+      "strike": 165.0,
+      "strike_volume": 1554,
       "expiry": "2026-11-06",
-      "total_volume": 16432,
-      "vol_oi_ratio": 0.62,
-      "volume_ratio_vs_avg": 2.92
+      "total_volume": 14566,
+      "vol_oi_ratio": 1.21,
+      "volume_ratio_vs_avg": 5.11
     }
   ]
 }
