@@ -1,36 +1,36 @@
 {
-  "date": "2026-11-05",
-  "updated_at": "2026-11-05T20:15:31.014146+00:00",
+  "date": "2026-11-06",
+  "updated_at": "2026-11-06T19:41:19.359314+00:00",
   "items": [
+    {
+      "ticker": "AI",
+      "direction": "call",
+      "strike": 12.0,
+      "strike_volume": 41792,
+      "expiry": "2026-11-06",
+      "total_volume": 167952,
+      "vol_oi_ratio": 1.69,
+      "volume_ratio_vs_avg": 10.87
+    },
+    {
+      "ticker": "COIN",
+      "direction": "call",
+      "strike": 142.0,
+      "strike_volume": 8650,
+      "expiry": "2026-11-06",
+      "total_volume": 144276,
+      "vol_oi_ratio": 0.83,
+      "volume_ratio_vs_avg": 2.75
+    },
     {
       "ticker": "APP",
       "direction": "call",
       "strike": 400.0,
-      "strike_volume": 8482,
+      "strike_volume": 17647,
       "expiry": "2026-11-06",
-      "total_volume": 93105,
-      "vol_oi_ratio": 1.34,
-      "volume_ratio_vs_avg": 7.8
-    },
-    {
-      "ticker": "BMY",
-      "direction": "put",
-      "strike": 60.0,
-      "strike_volume": 8680,
-      "expiry": "2026-11-13",
-      "total_volume": 21413,
-      "vol_oi_ratio": 1.08,
-      "volume_ratio_vs_avg": 4.49
-    },
-    {
-      "ticker": "ABNB",
-      "direction": "put",
-      "strike": 165.0,
-      "strike_volume": 1554,
-      "expiry": "2026-11-06",
-      "total_volume": 14566,
-      "vol_oi_ratio": 1.21,
-      "volume_ratio_vs_avg": 5.11
+      "total_volume": 82659,
+      "vol_oi_ratio": 0.97,
+      "volume_ratio_vs_avg": 4.62
     }
   ]
 }
