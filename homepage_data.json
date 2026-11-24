@@ -1,36 +1,36 @@
 {
-  "date": "2026-11-20",
-  "updated_at": "2026-11-20T20:42:50.019613+00:00",
+  "date": "2026-11-24",
+  "updated_at": "2026-11-24T00:22:29.499468+00:00",
   "items": [
     {
-      "ticker": "AVGO",
+      "ticker": "HPE",
+      "direction": "call",
+      "strike": 49.0,
+      "strike_volume": 12529,
+      "expiry": "2026-11-27",
+      "total_volume": 106844,
+      "vol_oi_ratio": 2.81,
+      "volume_ratio_vs_avg": 19.93
+    },
+    {
+      "ticker": "HRTX",
       "direction": "put",
-      "strike": 300.0,
-      "strike_volume": 28036,
-      "expiry": "2026-11-20",
-      "total_volume": 286831,
-      "vol_oi_ratio": 0.7,
-      "volume_ratio_vs_avg": 1.86
+      "strike": 0.5,
+      "strike_volume": 21006,
+      "expiry": "2026-12-18",
+      "total_volume": 21084,
+      "vol_oi_ratio": 0.81,
+      "volume_ratio_vs_avg": 66.93
     },
     {
-      "ticker": "AWK",
-      "direction": "call",
-      "strike": 130.0,
-      "strike_volume": 13201,
-      "expiry": "2026-11-20",
-      "total_volume": 14256,
-      "vol_oi_ratio": 1.21,
-      "volume_ratio_vs_avg": 1.99
-    },
-    {
-      "ticker": "CB",
-      "direction": "call",
-      "strike": 370.0,
-      "strike_volume": 1643,
-      "expiry": "2026-11-20",
-      "total_volume": 11256,
-      "vol_oi_ratio": 0.53,
-      "volume_ratio_vs_avg": 8.86
+      "ticker": "BBY",
+      "direction": "put",
+      "strike": 84.0,
+      "strike_volume": 2430,
+      "expiry": "2026-11-27",
+      "total_volume": 16359,
+      "vol_oi_ratio": 5.92,
+      "volume_ratio_vs_avg": 11.03
     }
   ]
 }
